@@ -63,13 +63,13 @@ angular.module('customSearch.service', [
       return (function (index) {
         return self._groupCountEndpoint.post(self._data.groups[index])
           .then(function (data) {
-            self._data.groups[index].result_count = data.count;
+            self._data.groups[index].$result_count = data.count;
           });
       })(index);
     };
 
     CustomSearchService.prototype.groupsResultCountGet = function (index) {
-      return this._data.groups[index].result_count || 0;
+      return this._data.groups[index].$result_count || 0;
     };
 
     CustomSearchService.prototype.groupsList = function () {
@@ -84,7 +84,7 @@ angular.module('customSearch.service', [
       data = _.defaults(data, {
         conditions: [],
         time: null,
-        result_count: 0
+        $result_count: 0
       });
 
       this._data.groups.push(data);

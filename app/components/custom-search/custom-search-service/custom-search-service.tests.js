@@ -42,7 +42,7 @@ describe('Service: CustomSearchService', function () {
       var groups = customSearchService.groupsList();
       expect(groups.length).toBe(1);
       expect(groups[0]).toBe(data);
-      expect(newGroup.result_count).toBe(0);
+      expect(newGroup.$result_count).toBe(0);
       expect(newGroup).toEqual(data);
     });
 
