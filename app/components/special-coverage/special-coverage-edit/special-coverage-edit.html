@@ -21,16 +21,26 @@
       <input id="specialCoverageDescription" type="text" name="description" ng-model="model.description" class="form-control">
     </div>
   </div>
-  <div class="row">
-    TABS HERE
+  <div class="row" role="tabpanel">
+    <ul role="tablist" class="nav nav-tabs">
+      <li role="presentation" class="active">
+        <a href="#paneQuery" role="tab" data-toggle="tab">
+          Add Content
+        </a>
+      </li>
+      <li role="presentation">
+        <a href="#paneVideos" role="tab" data-toggle="tab">
+          Add Videos
+        </a>
+      </li>
+    </ul>
   </div>
-  <div class="row">
-    <custom-search
-        search-query-data="model.query"
-        class="col-xs-12">
-    </custom-search>
-  </div>
-  <div class="row">
-    VIDEO LIST EDITING THING
+  <div class="row tab-content">
+    <div id="paneQuery" role="tabpanel" class="tab-pane active">
+      <custom-search search-query-data="model.query"></custom-search>
+    </div>
+    <div id="paneVideos" role="tabpanel" class="tab-pane">
+      VIDEO LIST EDITING THING
+    </div>
   </div>
 </div>
