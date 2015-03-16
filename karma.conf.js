@@ -59,6 +59,7 @@ module.exports = function(config) {
       'app/bower_components/ng-clip/dest/ng-clip.min.js',
       'app/bower_components/bulbs-autocomplete/dist/bulbs-autocomplete.js',
       'app/bower_components/angular-ui-sortable/sortable.js',
+      'app/bower_components/angular-restmod/dist/angular-restmod-bundle.js',
 
       'app/mocks/app.js',
       'app/mocks/api.js',

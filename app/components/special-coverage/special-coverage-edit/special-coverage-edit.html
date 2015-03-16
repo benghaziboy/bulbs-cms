@@ -1,7 +1,12 @@
 <div>
   <div>THE ONION</div>
   <div>Special toolbar</div>
-  <button class="btn btn-success">Save</button>
+  <button
+      class="btn btn-success"
+      ng-click="saveModel()">
+    <i class="glyphicon glyphicon-save"></i>
+    Save
+  </button>
 </div>
 
 <div class="container col-xs-offset-1 col-xs-10">
@@ -18,6 +23,7 @@
       <label for="specialCoverageDescription">Description</label>
       <input id="specialCoverageDescription" type="text" name="description" ng-model="model.description" class="form-control">
     </div>
+    <input type="hidden" ng-model="model.query">
   </div>
   <div class="row" role="tabpanel">
     <ul role="tablist" class="nav nav-tabs">

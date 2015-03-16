@@ -165,8 +165,17 @@ module.exports = function (grunt) {
       app: {
         src: ['<%= yeoman.app %>/index.html'],
         ignorePath: '<%= yeoman.app %>/',
-        devDependencies: true
-      }
+        devDependencies: true,
+        overrides: {
+          'angular-restmod': {
+            'main': [
+              './dist/angular-restmod-bundle.min.js',
+              './dist/plugins/dirty.min.js',
+              './dist/plugins/nested-dirty.min.js'
+            ]
+          }
+        }
+      },
     },
 
     less: {

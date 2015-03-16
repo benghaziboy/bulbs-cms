@@ -137,7 +137,7 @@ angular.module('bulbsCmsApp.mockApi').run([
       list: /^\/cms\/api\/v1\/special-coverage\/$/,
       edit: /^\/cms\/api\/v1\/special-coverage\/(\d+)\/$/
     };
-    mockApiData.special_coverage = [{
+    mockApiData.special_coverages = [{
       id: 1,
       name: 'Joe Biden',
       slug: 'joe-biden',
@@ -177,20 +177,43 @@ angular.module('bulbsCmsApp.mockApi').run([
       videos: []
     }];
 
-    $httpBackend.whenGET(reSpecialCoverage.list).respond({
-      count: mockApiData.special_coverage.length,
-      results: mockApiData.special_coverage
-    });
+    $httpBackend.whenGET(reSpecialCoverage.list).respond(mockApiData.special_coverages);
     $httpBackend.whenGET(reSpecialCoverage.edit).respond(function (method, url) {
       // return the operation matching given id
       var matches = url.match(reSpecialCoverage.edit);
-      var specialCoverage = _.find(mockApiData.special_coverage, {id: Number(matches[1])});
+      var specialCoverage = _.find(mockApiData.special_coverages, {id: Number(matches[1])});
 
       if (_.isUndefined(specialCoverage)) {
         return [404, null];
       }
 
       return [200, specialCoverage];
+    });
+    $httpBackend.whenPOST(reSpecialCoverage.list).respond(function (method, url, data) {
+
+
+
+
+
+// TODO : fill this in
+
+
+
+    });
+    $httpBackend.whenPUT(reSpecialCoverage.edit).respond(function (method, url, data) {
+      // return the operation matching given id
+      var matches = url.match(reSpecialCoverage.edit);
+      var specialCoverageIndex = _.findIndex(mockApiData.special_coverages, {id: Number(matches[1])});
+
+      if (specialCoverageIndex < 0) {
+        return [404, null];
+      }
+
+      // modify special coverage
+      mockApiData.special_coverage[specialCoverageIndex] = data;
+
+      // return new data
+      return [200, data];
     });
 
     // feature types

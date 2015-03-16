@@ -35,7 +35,8 @@
     "ng-clip": "~0.2.4",
     "bulbs-autocomplete": "~0.1.4",
     "angular-uuid4": "~0.3.0",
-    "angular-ui-sortable": "~0.13.3"
+    "angular-ui-sortable": "~0.13.3",
+    "angular-restmod": "~1.1.8"
   },
   "resolutions": {
     "zeroclipboard": "2.2.0",
