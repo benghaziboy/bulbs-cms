@@ -13,11 +13,7 @@ angular.module('customSearch.service', [
      */
     var CustomSearchService = function (data) {
 
-      if (_.isUndefined(data)) {
-        throw 'Given data for CustomSearchService is undefined!';
-      }
-
-      this._data = _.defaults(data, {
+      this._data = _.defaults(data || {}, {
         groups: [],
         included_ids: [],
         excluded_ids: [],
