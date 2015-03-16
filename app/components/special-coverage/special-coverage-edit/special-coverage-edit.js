@@ -5,8 +5,7 @@ angular.module('specialCoverage.edit', [
   'customSearch'
 ])
   .constant('SAVING_STATES', {
-    UNSAVED: 'unsaved',
-    SAVED: 'saved',
+    DONE: 'done',
     SAVING: 'saving',
     ERROR: 'error'
   })
@@ -18,24 +17,23 @@ angular.module('specialCoverage.edit', [
           $window.document.title = routes.CMS_NAMESPACE + ' | Edit Special Coverage';
 
           // populate model for use
-          $scope.model = null;
-          SpecialCoverage.$find($routeParams.id).$then(function (data) {
-            $scope.model = data;
-          });
+          $scope.model = SpecialCoverage.$find($routeParams.id);
 
           // set up save state function
+          $scope.saveStates = SAVING_STATES;
           $scope.saveState = SAVING_STATES.SAVED;
           $scope.saveModel = function () {
-            $scope.model.save()
-              .notify(function () {
-                $scope.saveState = SAVING_STATES.SAVING;
-              })
-              .then(function () {
-                $scope.saveState = SAVING_STATES.SAVED;
-              })
-              .catch(function () {
-                $scope.saveState = SAVING_STATES.ERROR;
-              });
+            if ($scope.model) {
+              $scope.saveState = SAVING_STATES.SAVING;
+              $scope.model.$save()
+                .$then(
+                  function () {
+                    $scope.saveState = SAVING_STATES.DONE;
+                  },
+                  function () {
+                    $scope.saveState = SAVING_STATES.ERROR;
+                  });
+            }
           };
         },
         templateUrl: routes.COMPONENTS_URL + 'special-coverage/special-coverage-edit/special-coverage-edit.html',

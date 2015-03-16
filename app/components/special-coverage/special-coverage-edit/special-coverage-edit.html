@@ -2,11 +2,30 @@
   <div>THE ONION</div>
   <div>Special toolbar</div>
   <button
-      class="btn btn-success"
-      ng-click="saveModel()">
-    <i class="glyphicon glyphicon-save"></i>
-    Save
+      class="btn"
+      ng-class="{
+        'btn-success': saveState !== saveStates.ERROR,
+        'btn-danger': saveState === saveStates.ERROR
+      }"
+      ng-click="saveModel()"
+      ng-disabled="!model.$dirty()">
+    <span ng-if="saveState === saveStates.ERROR">
+      <i class="glyphicon glyphicon-remove"></i>
+      Error
+    </span>
+    <span ng-if="saveState === saveStates.SAVING">
+      <i class="glyphicon glyphicon-refresh fa-spin"></i>
+      Saving...
+    </span>
+    <span ng-if="saveState === saveStates.SAVED">
+      <i class="glyphicon glyphicon-floppy-disk"></i>
+      Save
+    </span>
   </button>
+</div>
+
+<div>
+  {{ model.$dirty() }}
 </div>
 
 <div class="container col-xs-offset-1 col-xs-10">
