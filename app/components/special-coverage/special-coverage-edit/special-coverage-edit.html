@@ -1,0 +1,36 @@
+<div>
+  <div>THE ONION</div>
+  <div>Special toolbar</div>
+  <button class="btn btn-success">Save</button>
+</div>
+
+<div class="container">
+  <h1>EDIT SPECIAL COVERAGE {{ model.id }}</h1>
+
+  <div class="row well">
+    <div class="form-group">
+      <label for="specialCoverageName">Name</label>
+      <input id="specialCoverageName" type="text" name="name" ng-model="model.name" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="specialCoverageSlug">Slug</label>
+      <input id="specialCoverageSlug" type="text" name="slug" ng-model="model.slug" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="specialCoverageDescription">Description</label>
+      <input id="specialCoverageDescription" type="text" name="description" ng-model="model.description" class="form-control">
+    </div>
+  </div>
+  <div class="row">
+    TABS HERE
+  </div>
+  <div class="row">
+    <custom-search
+        search-query-data="model.query"
+        class="col-xs-12">
+    </custom-search>
+  </div>
+  <div class="row">
+    VIDEO LIST EDITING THING
+  </div>
+</div>

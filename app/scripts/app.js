@@ -42,7 +42,8 @@ angular.module('bulbsCmsApp', [
   'filterWidget',
   'promotedContent',
   'statusFilter',
-  'templateTypeField'
+  'templateTypeField',
+  'specialCoverage'
 ])
 .config(function ($locationProvider, $routeProvider, $sceProvider, routes) {
   $locationProvider.html5Mode(true);

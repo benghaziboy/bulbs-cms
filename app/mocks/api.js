@@ -132,8 +132,66 @@ angular.module('bulbsCmsApp.mockApi').run([
       return [200, {count: Math.floor(Math.random() * 1000)}];
     });
 
-    // custom search query group count
+    // special coverage
+    var reSpecialCoverage = {
+      list: /^\/cms\/api\/v1\/special-coverage\/$/,
+      edit: /^\/cms\/api\/v1\/special-coverage\/(\d+)\/$/
+    };
+    mockApiData.special_coverage = [{
+      id: 1,
+      name: 'Joe Biden',
+      slug: 'joe-biden',
+      description: 'Joe Biden things.',
+      query: {
+        groups: [{
+          conditions: [{
+            field: 'content-type',
+            type: 'all',
+            values: [{
+              name: 'for display',
+              value: 'actually-use-this-value-123'
+            }]
+          }],
+          time: '1 day'
+        }],
+        included_ids: [1],
+        excluded_ids: [2],
+        pinned_ids: [3],
+        page: 1,
+        query: 'query balh blah blahb'
+      },
+      videos: []
+    }, {
+      id: 2,
+      name: 'Fun',
+      slug: 'fun',
+      description: 'Things your favorite company thinks are fun.',
+      query: {},
+      videos: []
+    }, {
+      id: 3,
+      name: 'Luxury Stuff',
+      slug: 'luxury-stuff',
+      description: 'Luxury, by the rich, for the rich.',
+      query: {},
+      videos: []
+    }];
 
+    $httpBackend.whenGET(reSpecialCoverage.list).respond({
+      count: mockApiData.special_coverage.length,
+      results: mockApiData.special_coverage
+    });
+    $httpBackend.whenGET(reSpecialCoverage.edit).respond(function (method, url) {
+      // return the operation matching given id
+      var matches = url.match(reSpecialCoverage.edit);
+      var specialCoverage = _.find(mockApiData.special_coverage, {id: Number(matches[1])});
+
+      if (_.isUndefined(specialCoverage)) {
+        return [404, null];
+      }
+
+      return [200, specialCoverage];
+    });
 
     // feature types
     mockApiData.feature_types = [{

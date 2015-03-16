@@ -1,0 +1,17 @@
+<nav-bar view="nav"></nav-bar>
+
+<cms-notify-container class="cms-notify-container"></cms-notify-container>
+
+<h1>SPECIAL COVERAGES</h1>
+
+<ul>
+  <li ng-repeat="specialCoverage in specialCoverages">
+    <div style="font-weight: bold;">{{ specialCoverage.name }}</div>
+    ID: {{ specialCoverage.id }}<br>
+    Slug: {{ specialCoverage.slug }}<br>
+    Description: {{ specialCoverage.description }}<br>
+    Query: {{ specialCoverage.query }}<br>
+    Videos: {{ specialCoverage.videos }}<br>
+    <a href="/cms/app/special-coverage/edit/{{ specialCoverage.id }}/">EDIT &gt;&gt;<a/><br>
+  </li>
+</ul>
