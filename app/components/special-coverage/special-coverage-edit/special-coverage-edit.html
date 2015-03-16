@@ -8,7 +8,7 @@
         'btn-danger': saveState === saveStates.ERROR
       }"
       ng-click="saveModel()"
-      ng-disabled="!model.$dirty()">
+      ng-disabled="model.$dirty().length === 0">
     <span ng-if="saveState === saveStates.ERROR">
       <i class="glyphicon glyphicon-remove"></i>
       Error
@@ -40,7 +40,8 @@
     </div>
     <div class="form-group">
       <label for="specialCoverageDescription">Description</label>
-      <input id="specialCoverageDescription" type="text" name="description" ng-model="model.description" class="form-control">
+      <textarea id="specialCoverageDescription" type="text" name="description" ng-model="model.description" class="form-control">
+      </textarea>
     </div>
     <input type="hidden" ng-model="model.query">
   </div>
