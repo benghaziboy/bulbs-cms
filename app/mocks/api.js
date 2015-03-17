@@ -300,6 +300,10 @@ angular.module('bulbsCmsApp.mockApi').run([
     $httpBackend.whenDELETE(/\/cms\/api\/v1\/notifications\/(\d+)\//).respond(200);
 
     // campaigns
+    var reCampaign = {
+      list: /^\/cms\/api\/v1\/campaign\/$/,
+      edit: /^\/cms\/api\/v1\/campaign\/(\d+)\/$/
+    };
     mockApiData.campaigns = [{
         id: 0,
         sponsor_name: 'Campaign Test Name',
@@ -340,7 +344,33 @@ angular.module('bulbsCmsApp.mockApi').run([
             campaign_type: 'Logo'
         }],
     }];
-    $httpBackend.whenGET('/cms/api/v1/campaign/').respond(mockApiData.campaigns);
+    $httpBackend.whenGET(reCampaign.list).respond(mockApiData.campaigns);
+    $httpBackend.whenGET(reCampaign.edit).respond(function (method, url) {
+      // return the operation matching given id
+      var matches = url.match(reCampaign.edit);
+      var campaign = _.find(mockApiData.campaigns, {id: Number(matches[1])});
+
+      if (_.isUndefined(campaign)) {
+        return [404, null];
+      }
+
+      return [200, campaign];
+    });
+    $httpBackend.whenPUT(reCampaign.edit).respond(function (method, url, data) {
+      // return the operation matching given id
+      var matches = url.match(reCampaign.edit);
+      var campaignIndex = _.findIndex(mockApiData.campaigns, {id: Number(matches[1])});
+
+      if (campaignIndex < 0) {
+        return [404, null];
+      }
+
+      // modify campaign
+      mockApiData.campaigns[campaignIndex] = JSON.parse(data);
+
+      // return new data
+      return [200, data];
+    });
 
     //current user
     $httpBackend.whenGET(/\/users\/me\/?/).respond({
