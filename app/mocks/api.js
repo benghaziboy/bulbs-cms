@@ -184,7 +184,7 @@ angular.module('bulbsCmsApp.mockApi').run([
 // TODO : fill this in
 
 
-
+      return [500, {}]
     });
     $httpBackend.whenPUT(reSpecialCoverage.edit).respond(function (method, url, data) {
       // return the operation matching given id

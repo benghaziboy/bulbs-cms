@@ -6,17 +6,24 @@ angular.module('specialCoverage.list', [
   .config(function ($routeProvider, routes) {
     $routeProvider
       .when('/cms/app/special-coverage/', {
-        controller: function ($scope, $window, SpecialCoverage) {
+        controller: function ($location, $scope, $window, SpecialCoverage) {
           // set title
           $window.document.title = routes.CMS_NAMESPACE + ' | Special Coverage';
 
-          $scope.specialCoverages = [];
+          $scope.$specialCoverages = [];
           $scope.$retrieveSpecialCoverages = function (filters) {
-            return SpecialCoverage.$collection().$search(filters)
-              .$then(function (data) {
-                $scope.specialCoverages = data;
-              })
-              .$asPromise();
+            $scope.$specialCoverages = SpecialCoverage.$collection().$search(filters);
+          };
+
+          $scope.$addSpecialCoverage = function () {
+            $scope.$specialCoverages.$create()
+              .$then(
+                function (data) {
+                  $location.path('/cms/app/special-coverage/edit/' + data.id + '/');
+                },
+                function () {
+console.log('something screwed up')
+                });
           };
 
           $scope.$retrieveSpecialCoverages();
