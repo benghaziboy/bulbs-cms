@@ -1,2 +1,14 @@
-CAMPAIGNS LIST!!!
+<nav-bar view="nav"></nav-bar>
+
+<cms-notify-container class="cms-notify-container"></cms-notify-container>
+
+<h1>CAMPAIGNS</h1>
+
+<ul>
+  <li ng-repeat="campaign in campaigns">
+    <div style="font-weight: bold;">{{ campaign.campaign_label}}</div>
+    ID: {{ campaign.id }}<br>
+    <a href="/cms/app/campaigns/edit/{{ campaign.id }}/">EDIT &gt;&gt;<a/><br>
+  </li>
+</ul>
 
