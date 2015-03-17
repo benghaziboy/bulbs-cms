@@ -47,7 +47,6 @@ module.exports = function(config) {
       'app/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
       'app/bower_components/angular-uuid4/angular-uuid4.js',
       'app/bower_components/angularfire/dist/angularfire.js',
-      'app/bower_components/nprogress/nprogress.js',
       'app/bower_components/restangular/dist/restangular.js',
       'app/bower_components/moment/moment.js',
       'app/bower_components/moment-timezone/builds/moment-timezone-with-data-2010-2020.js',

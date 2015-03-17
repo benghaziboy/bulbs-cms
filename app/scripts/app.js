@@ -3,7 +3,6 @@
 // ****** External Libraries ****** \\
 
 angular.module('lodash', []).constant('_', window._);
-angular.module('NProgress', []).constant('NProgress', window.NProgress);
 angular.module('URLify', []).constant('URLify', window.URLify);
 angular.module('jquery', []).constant('$', window.$);
 angular.module('moment', []).constant('moment', window.moment);
@@ -25,7 +24,6 @@ angular.module('bulbsCmsApp', [
   'BettyCropper',
   'jquery',
   'lodash',
-  'NProgress',
   'URLify',
   'moment',
   'PNotify',

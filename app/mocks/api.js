@@ -208,10 +208,10 @@ angular.module('bulbsCmsApp.mockApi').run([
       }
 
       // modify special coverage
-      mockApiData.special_coverages[specialCoverageIndex] = data;
+      mockApiData.special_coverages[specialCoverageIndex] = JSON.parse(data);
 
       // return new data
-      return [500, data];
+      return [200, data];
     });
 
     // feature types
