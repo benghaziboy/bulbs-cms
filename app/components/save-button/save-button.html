@@ -1,0 +1,21 @@
+<button
+    class="btn"
+    ng-class="{
+      'btn-success': savingState !== SAVING_STATES.ERROR,
+      'btn-danger': savingState === SAVING_STATES.ERROR
+    }"
+    ng-click="doSave()"
+    ng-disabled="disableSave() === true">
+  <span ng-if="savingState === SAVING_STATES.ERROR">
+    <i class="glyphicon glyphicon-remove"></i>
+    Error
+  </span>
+  <span ng-if="savingState === SAVING_STATES.SAVING">
+    <i class="glyphicon glyphicon-refresh fa-spin"></i>
+    Saving...
+  </span>
+  <span ng-if="savingState === SAVING_STATES.DONE">
+    <i class="glyphicon glyphicon-floppy-disk"></i>
+    Save
+  </span>
+</button>
