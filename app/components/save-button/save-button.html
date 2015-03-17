@@ -5,7 +5,7 @@
       'btn-danger': savingState === SAVING_STATES.ERROR
     }"
     ng-click="doSave()"
-    ng-disabled="disableSave() === true">
+    ng-disabled="disableSave() === true || savingState === SAVING_STATES.SAVING">
   <span ng-if="savingState === SAVING_STATES.ERROR">
     <i class="glyphicon glyphicon-remove"></i>
     Error

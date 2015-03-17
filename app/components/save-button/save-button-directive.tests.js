@@ -62,6 +62,7 @@ describe('Directive: saveButton', function () {
 
       $scope.$digest();
 
+      expect($button.is(':disabled')).toBe(true);
       expect($directiveScope.savingState).toBe($directiveScope.SAVING_STATES.SAVING);
       expect($.trim($button.text())).toBe('Saving...');
     });
