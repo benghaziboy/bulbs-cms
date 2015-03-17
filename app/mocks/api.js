@@ -299,6 +299,52 @@ angular.module('bulbsCmsApp.mockApi').run([
     });
     $httpBackend.whenDELETE(/\/cms\/api\/v1\/notifications\/(\d+)\//).respond(200);
 
+    // campaigns
+    mockApiData.campaigns = [{
+        id: 0,
+        sponsor_name: 'Campaign Test Name',
+        sponsor_logo: 1,
+        sponsor_url: 'http://example.com',
+        start_date: moment().format(),
+        end_date: moment().add(2, 'days').format(),
+        campaign_label: 'Some Test Label',
+        impression_goal: 100,
+        pixels: [{id: 0,
+            url: 'http://example.com/pixel',
+            campaign_type: 'Logo'
+        }
+            ],
+      },{
+        id: 1,
+        sponsor_name: 'Campaign Test Name 2',
+        sponsor_logo: 2,
+        sponsor_url: 'http://example.com/2',
+        start_date: moment().add(7, 'days').format(),
+        end_date: moment().add(14, 'days').format(),
+        campaign_label: 'Some Other Label',
+        impression_goal: 1000,
+        pixels: [{id: 1,
+            url: 'http://example.com/pixel/2',
+            campaign_type: 'Logo'
+            ],
+      },{
+        id: 2,
+        sponsor_name: 'Some Other Campaign',
+        sponsor_logo: 2,
+        sponsor_url: 'http://example.com/somewhere/else',
+        start_date: moment().subtract(30, 'days').format(),
+        end_date: moment().subtract(10, 'days').format(),
+        campaign_label: 'Test Me',
+        impression_goal: 2000,
+        pixels: [{id: 2,
+            url: 'http://example.com/pixel/2',
+            campaign_type: 'Logo'
+        }
+            ],
+      },{
+    }];
+    $httpBackend.whenGET('/cms/api/v1/campaigns/').respond(mockApiData.campaigns);
+
     //current user
     $httpBackend.whenGET(/\/users\/me\/?/).respond({
       username: 'JesseWoghin',
