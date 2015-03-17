@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Directive: saveButton', function () {
+describe('Directive: genericAjaxButton', function () {
   var
     $,
     $button,
@@ -10,7 +10,7 @@ describe('Directive: saveButton', function () {
 
   beforeEach(function () {
     module('jquery');
-    module('saveButton.directive');
+    module('genericAjaxButton.directive');
     module('jsTemplates');
 
     inject(function (_$_, _$q_, _$rootScope_, $compile) {
@@ -20,9 +20,13 @@ describe('Directive: saveButton', function () {
       $scope = _$rootScope_.$new();
 
       $scope.disabler = false;
-      $scope.saver = null;
+      $scope.clicker = null;
 
-      var element = $compile('<save-button disable-save="disabler" save-function="saver"></save-button>')($scope.$new());
+      var element = $compile(
+          '<generic-ajax-button ' +
+              'disable-when="disabler" ' +
+              'click-function="clicker" ' +
+            '></generic-ajax-button>')($scope.$new());
       _$rootScope_.$digest();
       $directiveScope = element.isolateScope();
 
@@ -37,7 +41,7 @@ describe('Directive: saveButton', function () {
 
       $scope.$digest();
 
-      expect($button.is(':disabled')).toBe(true);
+      expect($button.is(' :disabled')).toBe(true);
     });
 
     it('should have a non-disabled state', function () {
@@ -49,10 +53,10 @@ describe('Directive: saveButton', function () {
     });
   });
 
-  describe('saving functionality', function () {
+  describe('click functionality', function () {
 
-    it('should have a saving state', function () {
-      $scope.saver = function () {
+    it('should have an progress state', function () {
+      $scope.clicker = function () {
         return $q.defer().promise;
       };
 
@@ -63,12 +67,12 @@ describe('Directive: saveButton', function () {
       $scope.$digest();
 
       expect($button.is(':disabled')).toBe(true);
-      expect($directiveScope.savingState).toBe($directiveScope.SAVING_STATES.SAVING);
-      expect($.trim($button.text())).toBe('Saving...');
+      expect($directiveScope.state).toBe($directiveScope.STATES.PROGRESS);
+      expect($.trim($button.text())).toBe('In Progress...');
     });
 
     it('should have a done state', function () {
-      $scope.saver = function () {
+      $scope.clicker = function () {
         var deferred = $q.defer();
         deferred.resolve();
         return deferred.promise;
@@ -80,12 +84,12 @@ describe('Directive: saveButton', function () {
 
       $scope.$digest();
 
-      expect($directiveScope.savingState).toBe($directiveScope.SAVING_STATES.DONE);
-      expect($.trim($button.text())).toBe('Save');
+      expect($directiveScope.state).toBe($directiveScope.STATES.DONE);
+      expect($.trim($button.text())).toBe('Complete');
     });
 
     it('should have an error state', function () {
-      $scope.saver = function () {
+      $scope.clicker = function () {
         var deferred = $q.defer();
         deferred.reject();
         return deferred.promise;
@@ -97,7 +101,7 @@ describe('Directive: saveButton', function () {
 
       $scope.$digest();
 
-      expect($directiveScope.savingState).toBe($directiveScope.SAVING_STATES.ERROR);
+      expect($directiveScope.state).toBe($directiveScope.STATES.ERROR);
       expect($.trim($button.text())).toBe('Error');
     });
   });

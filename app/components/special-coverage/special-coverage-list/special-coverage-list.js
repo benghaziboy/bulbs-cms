@@ -22,7 +22,7 @@ angular.module('specialCoverage.list', [
                   $location.path('/cms/app/special-coverage/edit/' + data.id + '/');
                 },
                 function () {
-console.log('something screwed up')
+console.log('something screwed up');
                 });
           };
 

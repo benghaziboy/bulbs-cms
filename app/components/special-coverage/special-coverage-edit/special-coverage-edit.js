@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('specialCoverage.edit', [
-  'saveButton',
+  'saveButton.directive',
   'specialCoverage.factory',
   'customSearch'
 ])
