@@ -12,10 +12,11 @@ angular.module('specialCoverage.list', [
 
           $scope.specialCoverages = [];
           $scope.$retrieveSpecialCoverages = function (filters) {
-            SpecialCoverage.$collection().$search()
+            return SpecialCoverage.$collection().$search(filters)
               .$then(function (data) {
                 $scope.specialCoverages = data;
-              });
+              })
+              .$asPromise();
           };
 
           $scope.$retrieveSpecialCoverages();
