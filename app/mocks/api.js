@@ -156,9 +156,7 @@ angular.module('bulbsCmsApp.mockApi').run([
         }],
         included_ids: [1],
         excluded_ids: [2],
-        pinned_ids: [3],
-        page: 1,
-        query: 'query balh blah blahb'
+        pinned_ids: [3]
       },
       videos: []
     }, {

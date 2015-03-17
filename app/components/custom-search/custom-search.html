@@ -58,7 +58,7 @@
         <span class="input-container">
           <input
               id="contentFilterTerm"
-              ng-model="customSearchService._data.query"
+              ng-model="customSearchService._data.$query"
               ng-change="
                 customSearchService.setPage(1);
                 $conditionalContentRetrieve()"
@@ -122,7 +122,7 @@
   <pagination
       boundary-links="true"
       ng-change="$conditionalContentRetrieve()"
-      ng-model="customSearchService._data.page"
+      ng-model="customSearchService.$page"
       max-size="10"
       total-items="customSearchService.content.count"
       previous-text="&lsaquo;"

@@ -17,10 +17,11 @@ angular.module('customSearch.service', [
         groups: [],
         included_ids: [],
         excluded_ids: [],
-        pinned_ids: [],
-        page: 1,
-        query: ''
+        pinned_ids: []
       });
+
+      this.$page = 1;
+      this.$query = '';
 
       this._contentEndpoint = ContentFactory.service('custom-search-content/');
       this._groupCountEndpoint = ContentFactory.service('custom-search-content/group_count/');
@@ -37,20 +38,20 @@ angular.module('customSearch.service', [
     }, CUSTOM_SEARCH_REQUEST_CAP_MS);
 
     CustomSearchService.prototype.$filterContentByIncluded = function () {
-      var contentQuery = _.pick(this._data, [
-        'included_ids',
-        'page',
-        'query'
-      ]);
+      var contentQuery = {
+        included_ids: this._data.included_ids,
+        page: this.$page,
+        query: this.$query
+      };
       return this._$getContent(contentQuery);
     };
 
     CustomSearchService.prototype.$filterContentByExcluded = function () {
-      var contentQuery = _.pick(this._data, [
-        'page',
-        'query'
-      ]);
-      contentQuery.included_ids = this._data.excluded_ids;
+      var contentQuery = {
+        included_ids: this._data.excluded_ids,
+        page: this.$page,
+        query: this.$query
+      };
       return this._$getContent(contentQuery);
     };
 
@@ -240,11 +241,11 @@ angular.module('customSearch.service', [
     };
 
     CustomSearchService.prototype.getQuery = function () {
-      return this._data.query;
+      return this.$query;
     };
 
     CustomSearchService.prototype.setQuery = function (query) {
-      this._data.query = query;
+      this.$query = query;
     };
 
     return CustomSearchService;
