@@ -4,6 +4,10 @@
 
 <h1>SPECIAL COVERAGES</h1>
 
+<div class="errors">
+  <div ng-repeat="error in errors">{{ error.message }}</div>
+</div>
+
 <ul>
   <li ng-repeat="specialCoverage in $specialCoverages">
     <div style="font-weight: bold;">{{ specialCoverage.name }}</div>

@@ -10,6 +10,8 @@ angular.module('specialCoverage.list', [
           // set title
           $window.document.title = routes.CMS_NAMESPACE + ' | Special Coverage';
 
+          $scope.errors = [];
+
           $scope.$specialCoverages = [];
           $scope.$retrieveSpecialCoverages = function (filters) {
             $scope.$specialCoverages = SpecialCoverage.$collection().$search(filters);
@@ -22,7 +24,7 @@ angular.module('specialCoverage.list', [
                   $location.path('/cms/app/special-coverage/edit/' + data.id + '/');
                 },
                 function () {
-console.log('something screwed up');
+                  $scope.errors.push({message: 'Failed to create new special coverage list.'});
                 });
           };
 

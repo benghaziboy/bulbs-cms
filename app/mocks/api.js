@@ -176,15 +176,10 @@ angular.module('bulbsCmsApp.mockApi').run([
     }];
 
     $httpBackend.whenPOST(reSpecialCoverage.list).respond(function (method, url, data) {
-
-
-
-
-
-// TODO : fill this in
-
-
-      return [500, {}]
+      var newSpecialCoverage = JSON.parse(data);
+      newSpecialCoverage.id = _.last(mockApiData.special_coverages).id++;
+      mockApiData.special_coverages.push(newSpecialCoverage);
+      return [201, newSpecialCoverage];
     });
     $httpBackend.whenPUT(reSpecialCoverage.edit).respond(function (method, url, data) {
       // return the operation matching given id
