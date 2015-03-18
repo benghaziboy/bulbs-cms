@@ -11,7 +11,12 @@
     <div>
       <span>List URL</span>
       <span>{{ model.list_url }}</span>
-      <button clip-copy="model.list_url">Copy Url</button>
+      <button
+          class="btn btn-xs btn-success"
+          clip-copy="model.list_url">
+        <i class="glyphicon glyphicon-paperclip"></i>
+        Copy Url
+      </button>
     </div>
     <div class="form-group">
       <label for="specialCoverageName">Name</label>
