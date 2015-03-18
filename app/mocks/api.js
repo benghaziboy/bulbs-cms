@@ -311,7 +311,7 @@ angular.module('bulbsCmsApp.mockApi').run([
           id: 1
         },
         sponsor_url: 'http://example.com',
-        start_date: moment().format(),
+        start_date: moment().add(1, 'days').format(),
         end_date: moment().add(2, 'days').format(),
         campaign_label: 'Some Test Label',
         impression_goal: 100,
@@ -322,7 +322,9 @@ angular.module('bulbsCmsApp.mockApi').run([
       },{
         id: 1,
         sponsor_name: 'Campaign Test Name 2',
-        sponsor_logo: 2,
+        sponsor_logo: {
+          id: 2
+        },
         sponsor_url: 'http://example.com/2',
         start_date: moment().add(7, 'days').format(),
         end_date: moment().add(14, 'days').format(),
@@ -335,7 +337,9 @@ angular.module('bulbsCmsApp.mockApi').run([
       },{
         id: 2,
         sponsor_name: 'Some Other Campaign',
-        sponsor_logo: 2,
+        sponsor_logo: {
+          id: 3
+        },
         sponsor_url: 'http://example.com/somewhere/else',
         start_date: moment().subtract(30, 'days').format(),
         end_date: moment().subtract(10, 'days').format(),
