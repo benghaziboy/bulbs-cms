@@ -160,7 +160,8 @@ angular.module('bulbsCmsApp.mockApi').run([
       },
       active: true,
       promoted: true,
-      videos: []
+      videos: [],
+      list_url: 'http://theonion.com/list/job-biden-things-123123'
     }, {
       id: 2,
       name: 'Fun',
@@ -169,7 +170,8 @@ angular.module('bulbsCmsApp.mockApi').run([
       query: {},
       videos: [],
       active: false,
-      promoted: false
+      promoted: false,
+      list_url: 'http://theonion.com/list/fun-123123123'
     }, {
       id: 3,
       name: 'Luxury Stuff',
@@ -178,7 +180,8 @@ angular.module('bulbsCmsApp.mockApi').run([
       query: {},
       videos: [],
       active: false,
-      promoted: false
+      promoted: false,
+      list_url: 'http://theonion.com/list/luxury-stuff-123'
     }];
 
     $httpBackend.whenPOST(reSpecialCoverage.list).respond(function (method, url, data) {
