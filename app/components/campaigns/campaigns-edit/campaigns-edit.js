@@ -1,28 +1,32 @@
 'use strict';
 
 angular.module('campaigns.edit', [
-  'saveButton',
+  'BettyCropper',
+  'campaigns.edit.sponsorPixel',
   'campaigns.factory',
-]).constant('PIXEL_TYPES', [
-  {
-    name: 'Logo',
-    value: 'Logo'
-  },
-  {
-    name: 'Detail',
-    value: 'Detail'
-  }])
+  'saveButton',
+  ])
   .config(function ($routeProvider, routes) {
     $routeProvider
     .when('/cms/app/campaigns/edit/:id/', {
-      controller: function ($routeParams, $q, $scope, $window, Campaign, PIXEL_TYPES) {
+      controller: function ($routeParams, $q, $scope, $window, Campaign) {
         // set title
         $window.document.title = routes.CMS_NAMESPACE + ' | Edit Campaign';
 
         // populate model for use
         $scope.model = Campaign.$find($routeParams.id);
 
-        $scope.PIXEL_TYPES = PIXEL_TYPES;
+        $scope.addPixel = function () {
+          var pixel = {
+            url: '',
+            campaign_type: ''
+          };
+          $scope.model.pixels.push(pixel);
+        };
+
+        $scope.deletePixel = function (pixel) {
+          $scope.model.pixels = _.without($scope.model.pixels, pixel);
+        };
 
         // set up save state function
         $scope.saveModel = function () {

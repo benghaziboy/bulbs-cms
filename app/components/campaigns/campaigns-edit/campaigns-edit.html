@@ -18,18 +18,31 @@
       <input id="campaignSponsorName" type="text" name="sponsor_name" ng-model="model.sponsor_name" class="form-control">
     </div>
   </div>
+
+  <div class="row well">
+    <div class="form-group">
+      <label for="campaignSponsorUrl">Sponsor Logo</label>
+      <bettyeditable image="model.sponsor_logo" ratio="16x9" placeholder-text="Optional Sponsor Logo" add-styles="fa fa-picture-o"></bettyeditable>
+    </div>
+  </div>
+
+  <div class="row well">
+    <div class="form-group">
+      <label for="campaignSponsorUrl">Sponsor Click Through URL</label>
+      <input id="campaignSponsorUrl" type="text" name="sponsor_url" ng-model="model.sponsor_url" class="form-control">
+    </div>
+  </div>
 </div>
 
 
 <div class="container col-xs-offset-1 col-xs-10">
   <div class="row well">
-    <div class="form-group">
-      <label for="pixelType">Type</label>
-      <select id="pixelType" type="text" name="pixel_type" 
-        ng-options="pixelType.value as pixelType.name for pixelType in PIXEL_TYPES"
-        ng-model="model.pixel_type" class="form-control">
-        <option value="">Choose Type</option>
-      </select>
+    <div>Sponsor Pixel</div>
+    <div ng-repeat="pixel in model.pixels">
+      <campaigns-edit-sponsor-pixel model="pixel">
+      </campaigns-edit-sponsor-pixel>
+      <button ng-click="deletePixel(pixel);">Delete</button>
     </div>
+    <button ng-click="addPixel();">Add Another Pixel</button>
   </div>
 </div>

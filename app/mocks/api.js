@@ -307,7 +307,9 @@ angular.module('bulbsCmsApp.mockApi').run([
     mockApiData.campaigns = [{
         id: 0,
         sponsor_name: 'Campaign Test Name',
-        sponsor_logo: 1,
+        sponsor_logo: {
+          id: 1
+        },
         sponsor_url: 'http://example.com',
         start_date: moment().format(),
         end_date: moment().add(2, 'days').format(),
@@ -315,7 +317,7 @@ angular.module('bulbsCmsApp.mockApi').run([
         impression_goal: 100,
         pixels: [{id: 0,
             url: 'http://example.com/pixel',
-            campaign_type: 'Logo'
+            pixel_type: 'Logo'
         }],
       },{
         id: 1,
@@ -328,7 +330,7 @@ angular.module('bulbsCmsApp.mockApi').run([
         impression_goal: 1000,
         pixels: [{id: 1,
             url: 'http://example.com/pixel/2',
-            campaign_type: 'Logo'
+            pixel_type: 'Logo'
         }],
       },{
         id: 2,
@@ -341,7 +343,7 @@ angular.module('bulbsCmsApp.mockApi').run([
         impression_goal: 2000,
         pixels: [{id: 2,
             url: 'http://example.com/pixel/2',
-            campaign_type: 'Logo'
+            pixel_type: 'Logo'
         }],
     }];
     $httpBackend.whenGET(reCampaign.list).respond(mockApiData.campaigns);
