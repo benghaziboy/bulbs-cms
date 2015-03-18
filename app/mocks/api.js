@@ -158,6 +158,8 @@ angular.module('bulbsCmsApp.mockApi').run([
         excluded_ids: [2],
         pinned_ids: [3]
       },
+      active: true,
+      promoted: true,
       videos: []
     }, {
       id: 2,
@@ -165,14 +167,18 @@ angular.module('bulbsCmsApp.mockApi').run([
       slug: 'fun',
       description: 'Things your favorite company thinks are fun.',
       query: {},
-      videos: []
+      videos: [],
+      active: false,
+      promoted: false
     }, {
       id: 3,
       name: 'Luxury Stuff',
       slug: 'luxury-stuff',
       description: 'Luxury, by the rich, for the rich.',
       query: {},
-      videos: []
+      videos: [],
+      active: false,
+      promoted: false
     }];
 
     $httpBackend.whenPOST(reSpecialCoverage.list).respond(function (method, url, data) {

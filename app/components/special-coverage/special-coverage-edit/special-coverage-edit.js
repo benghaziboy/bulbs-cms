@@ -1,19 +1,22 @@
 'use strict';
 
 angular.module('specialCoverage.edit', [
+  'customSearch',
+  'topBar',
   'saveButton.directive',
-  'specialCoverage.factory',
-  'customSearch'
+  'specialCoverage.factory'
 ])
   .config(function ($routeProvider, routes) {
     $routeProvider
       .when('/cms/app/special-coverage/edit/:id/', {
-        controller: function ($routeParams, $q, $scope, $window, SpecialCoverage) {
+        controller: function ($routeParams, $q, $scope, $window, SpecialCoverage, TopBarItem) {
           // set title
           $window.document.title = routes.CMS_NAMESPACE + ' | Edit Special Coverage';
 
           // populate model for use
           $scope.model = SpecialCoverage.$find($routeParams.id);
+
+          $scope.ACTIVE_STATES = SpecialCoverage.ACTIVE_STATES;
 
           // set up save state function
           $scope.saveModel = function () {
