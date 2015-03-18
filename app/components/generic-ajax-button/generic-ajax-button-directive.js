@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ * Highly customizable four state ajax button. Useful for buttons which require
+ *  different displays for disabled/action/progress/complete states.
+ */
 angular.module('genericAjaxButton.directive', [
   'bulbsCmsApp.settings',
   'genericAjaxButton.controller'
