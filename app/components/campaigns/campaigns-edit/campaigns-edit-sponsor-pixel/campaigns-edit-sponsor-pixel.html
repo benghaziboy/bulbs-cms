@@ -1,11 +1,8 @@
-PLACEHOLDER PIXEL
-
-
 <div class="form-group">
   <input type="text" ng-model="model.url" class="form-control">
 </div>
 
-<select id="pixelType" type="text" name="pixel_type" 
+<select type="text" 
   ng-options="pixelType.value as pixelType.name for pixelType in PIXEL_TYPES"
   ng-model="model.pixel_type" class="form-control">
   <option value="">Choose Type</option>

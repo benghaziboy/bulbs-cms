@@ -2,8 +2,8 @@
   <div>THE ONION</div>
   <div>Special toolbar</div>
   <save-button
-   save-function="saveModel"
-   disable-save="model.$dirty().length === 0">
+    save-function="saveModel"
+    disable-save="model.$dirty().length === 0">
   </save-button>
 </div>
 
@@ -11,55 +11,75 @@
   {{ model.$dirty() }}
 </div>
 
-<div class="container col-xs-offset-1 col-xs-10">
-  <div class="row well">
-    <div class="form-group">
-      <label for="campaignSponsorName">Sponsor Name (Appears on Website)</label>
-      <input id="campaignSponsorName" type="text" name="sponsor_name" ng-model="model.sponsor_name" class="form-control">
+<div class="container">
+  <div class="col-xs-offset-1 col-xs-5">
+    <div class="row well">
+      <div class="form-group">
+        <label for="campaignSponsorName">Sponsor Name (Appears On Website)</label>
+        <input id="campaignSponsorName" type="text" name="sponsor_name" ng-model="model.sponsor_name" class="form-control">
+      </div>
     </div>
+
+    <div class="row well">
+      <div class="form-group">
+        <label for="campaignSponsorUrl">Sponsor Logo</label>
+        <bettyeditable image="model.sponsor_logo" ratio="16x9" placeholder-text="Optional Sponsor Logo" add-styles="fa fa-picture-o"></bettyeditable>
+      </div>
+    </div>
+
+    <div class="row well">
+      <div class="form-group">
+        <label for="campaignSponsorUrl">Sponsor Click Through URL</label>
+        <input id="campaignSponsorUrl" type="text" name="sponsor_url" ng-model="model.sponsor_url" class="form-control">
+      </div>
+    </div>
+
   </div>
 
-  <div class="row well">
-    <div class="form-group">
-      <label for="campaignSponsorUrl">Sponsor Logo</label>
-      <bettyeditable image="model.sponsor_logo" ratio="16x9" placeholder-text="Optional Sponsor Logo" add-styles="fa fa-picture-o"></bettyeditable>
+  <div class="col-xs-5">
+    <div class="row well">
+      <div class="form-group"
+        datetime-selection-modal-opener
+        ng-model="model.start_date"
+        modal-title="Campaign Start Date">
+        <label for="campaignStartDate">Campaign Start Date</label>
+        <input id="campaignStartDate" type="text" name="start_date" ng-model="model.start_date" class="form-control" readonly>
+        <button class="btn btn-xs btn-info">
+          <i class="glyphicon glyphicon-calendar"></i>
+        </button>
+      </div>
     </div>
-  </div>
 
-  <div class="row well">
-    <div class="form-group">
-      <label for="campaignSponsorUrl">Sponsor Click Through URL</label>
-      <input id="campaignSponsorUrl" type="text" name="sponsor_url" ng-model="model.sponsor_url" class="form-control">
+    <div class="row well">
+      <div class="form-group"
+        datetime-selection-modal-opener
+        ng-model="model.end_date"
+        modal-title="Campaign End Date">
+        <label for="campaignEndDate">Campaign End Date</label>
+        <input id="campaignEndDate" type="text" name="end_date" ng-model="model.end_date" class="form-control" readonly>
+        <button class="btn btn-xs btn-info">
+          <i class="glyphicon glyphicon-calendar"></i>
+        </button>
+      </div>
     </div>
-  </div>
 
-
-  <div class="row well">
-    <div class="form-group" 
-      datetime-selection-modal-opener
-      ng-model="model.start_date"
-      modal-title="Campaign Start Date">
-      <label for="campaignStartDate">Campaign Start Date</label>
-      <input id="campaignStartDate" type="text" name="start_date" ng-model="model.start_date" class="form-control" readonly>
-      <button class="btn btn-xs btn-info">
-        <i class="glyphicon glyphicon-calendar"></i>
-      </button>
+    <div class="row well">
+      <div class="form-group">
+        <label for="campaignLabel">Campaign Label (Internal Use Only)</label>
+        <input id="campaignLabel" type="text" name="campaign_label" ng-model="model.campaign_label" class="form-control" placeholder="e.g. O-183794983">
+      </div>
     </div>
-  </div>
 
-  <div class="row well">
-    <div class="form-group" 
-      datetime-selection-modal-opener
-      ng-model="model.end_date"
-      modal-title="Campaign End Date">
-      <label for="campaignEndDate">Campaign End Date</label>
-      <input id="campaignEndDate" type="text" name="end_date" ng-model="model.end_date" class="form-control" readonly>
-      <button class="btn btn-xs btn-info">
-        <i class="glyphicon glyphicon-calendar"></i>
-      </button>
+    <div class="row well">
+      <div class="form-group">
+        <label for="impressionGoal">Set Impression Goal</label>
+        <input id="impressionGoal" type="text" name="impression_goal" ng-model="impression_goal" class="form-control" placeholder="e.g. 20,000,000">
+      </div>
     </div>
-  </div>
 
+    <!--TODO(mparent 2015-03-18): Add "Total Impressions Served" field once supported-->
+
+  </div>
 </div>
 
 
