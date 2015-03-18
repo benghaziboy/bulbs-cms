@@ -1,36 +1,16 @@
 'use strict';
 
 angular.module('specialCoverage.list', [
-  'specialCoverage.factory'
+  'specialCoverage.list.directive'
 ])
   .config(function ($routeProvider, routes) {
     $routeProvider
       .when('/cms/app/special-coverage/', {
-        controller: function ($location, $scope, $window, SpecialCoverage) {
+        controller: function ($scope, $window) {
           // set title
           $window.document.title = routes.CMS_NAMESPACE + ' | Special Coverage';
-
-          $scope.errors = [];
-
-          $scope.$specialCoverages = [];
-          $scope.$retrieveSpecialCoverages = function (filters) {
-            $scope.$specialCoverages = SpecialCoverage.$collection().$search(filters);
-          };
-
-          $scope.$addSpecialCoverage = function () {
-            $scope.$specialCoverages.$create()
-              .$then(
-                function (data) {
-                  $location.path('/cms/app/special-coverage/edit/' + data.id + '/');
-                },
-                function () {
-                  $scope.errors.push({message: 'Failed to create new special coverage list.'});
-                });
-          };
-
-          $scope.$retrieveSpecialCoverages();
         },
-        templateUrl: routes.COMPONENTS_URL + 'special-coverage/special-coverage-list/special-coverage-list.html',
+        templateUrl: routes.COMPONENTS_URL + 'special-coverage/special-coverage-list/special-coverage-list-page.html',
         reloadOnSearch: false
       });
   });

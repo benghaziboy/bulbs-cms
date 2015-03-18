@@ -3,9 +3,9 @@
 angular.module('specialCoverage.edit.directive', [
   'bulbsCmsApp.settings',
   'customSearch',
-  'topBar',
   'saveButton.directive',
-  'specialCoverage.factory'
+  'specialCoverage.factory',
+  'topBar'
 ])
   .directive('specialCoverageEdit', function (routes) {
     return {
