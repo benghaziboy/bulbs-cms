@@ -169,9 +169,9 @@ module.exports = function (grunt) {
         overrides: {
           'angular-restmod': {
             'main': [
-              './dist/angular-restmod-bundle.min.js',
-              './dist/plugins/dirty.min.js',
-              './dist/plugins/nested-dirty.min.js'
+              './dist/angular-restmod-bundle.js',
+              './dist/plugins/dirty.js',
+              './dist/plugins/nested-dirty.js'
             ]
           }
         }
