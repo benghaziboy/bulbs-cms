@@ -11,7 +11,7 @@ angular.module('specialCoverage.factory', [
     };
 
     return restmod.model('special-coverage').mix('NestedDirtyModel', {
-      list_url: {
+      listUrl: {
         mask: 'CU'
       },
       $extend: {

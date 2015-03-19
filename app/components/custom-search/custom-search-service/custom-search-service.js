@@ -15,9 +15,9 @@ angular.module('customSearch.service', [
 
       this._data = _.defaults(data || {}, {
         groups: [],
-        included_ids: [],
-        excluded_ids: [],
-        pinned_ids: []
+        includedIds: [],
+        excludedIds: [],
+        pinnedIds: []
       });
 
       this.$page = 1;
@@ -39,7 +39,7 @@ angular.module('customSearch.service', [
 
     CustomSearchService.prototype.$filterContentByIncluded = function () {
       var contentQuery = {
-        included_ids: this._data.included_ids,
+        includedIds: this._data.includedIds,
         page: this.$page,
         query: this.$query
       };
@@ -48,7 +48,7 @@ angular.module('customSearch.service', [
 
     CustomSearchService.prototype.$filterContentByExcluded = function () {
       var contentQuery = {
-        included_ids: this._data.excluded_ids,
+        includedIds: this._data.excludedIds,
         page: this.$page,
         query: this.$query
       };
@@ -169,34 +169,34 @@ angular.module('customSearch.service', [
     };
 
     CustomSearchService.prototype.includesList = function () {
-      return this._data.included_ids;
+      return this._data.includedIds;
     };
 
     CustomSearchService.prototype.includesAdd = function (id) {
       // add id, ensure uniqueness
-      this._data.included_ids.push(id);
-      this._data.included_ids = _.uniq(this._data.included_ids);
+      this._data.includedIds.push(id);
+      this._data.includedIds = _.uniq(this._data.includedIds);
 
       // remove from exclude list
       this.excludesRemove(id);
     };
 
     CustomSearchService.prototype.includesRemove = function (id) {
-      this._data.included_ids = _.without(this._data.included_ids, id);
+      this._data.includedIds = _.without(this._data.includedIds, id);
     };
 
     CustomSearchService.prototype.includesHas = function (id) {
-      return _.includes(this._data.included_ids, id);
+      return _.includes(this._data.includedIds, id);
     };
 
     CustomSearchService.prototype.excludesList = function () {
-      return this._data.excluded_ids;
+      return this._data.excludedIds;
     };
 
     CustomSearchService.prototype.excludesAdd = function (id) {
       // exclude id, ensure unqiueness
-      this._data.excluded_ids.push(id);
-      this._data.excluded_ids = _.uniq(this._data.excluded_ids);
+      this._data.excludedIds.push(id);
+      this._data.excludedIds = _.uniq(this._data.excludedIds);
 
       // remove from include list and pinned list
       this.includesRemove(id);
@@ -204,32 +204,32 @@ angular.module('customSearch.service', [
     };
 
     CustomSearchService.prototype.excludesRemove = function (id) {
-      this._data.excluded_ids = _.without(this._data.excluded_ids, id);
+      this._data.excludedIds = _.without(this._data.excludedIds, id);
     };
 
     CustomSearchService.prototype.excludesHas = function (id) {
-      return _.includes(this._data.excluded_ids, id);
+      return _.includes(this._data.excludedIds, id);
     };
 
     CustomSearchService.prototype.pinsList = function () {
-      return this._data.pinned_ids;
+      return this._data.pinnedIds;
     };
 
     CustomSearchService.prototype.pinsAdd = function (id) {
       // pin id, ensure unqiueness
-      this._data.pinned_ids.push(id);
-      this._data.pinned_ids = _.uniq(this._data.pinned_ids);
+      this._data.pinnedIds.push(id);
+      this._data.pinnedIds = _.uniq(this._data.pinnedIds);
 
       // remove from exclude list
       this.excludesRemove(id);
     };
 
     CustomSearchService.prototype.pinsRemove = function (id) {
-      this._data.pinned_ids = _.without(this._data.pinned_ids, id);
+      this._data.pinnedIds = _.without(this._data.pinnedIds, id);
     };
 
     CustomSearchService.prototype.pinsHas = function (id) {
-      return _.includes(this._data.pinned_ids, id);
+      return _.includes(this._data.pinnedIds, id);
     };
 
     CustomSearchService.prototype.getPage = function () {

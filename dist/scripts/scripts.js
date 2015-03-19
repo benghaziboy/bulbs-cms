@@ -939,9 +939,9 @@ angular.module('customSearch.service', [
 
       this._data = _.defaults(data || {}, {
         groups: [],
-        included_ids: [],
-        excluded_ids: [],
-        pinned_ids: []
+        includedIds: [],
+        excludedIds: [],
+        pinnedIds: []
       });
 
       this.$page = 1;
@@ -963,7 +963,7 @@ angular.module('customSearch.service', [
 
     CustomSearchService.prototype.$filterContentByIncluded = function () {
       var contentQuery = {
-        included_ids: this._data.included_ids,
+        includedIds: this._data.includedIds,
         page: this.$page,
         query: this.$query
       };
@@ -972,7 +972,7 @@ angular.module('customSearch.service', [
 
     CustomSearchService.prototype.$filterContentByExcluded = function () {
       var contentQuery = {
-        included_ids: this._data.excluded_ids,
+        includedIds: this._data.excludedIds,
         page: this.$page,
         query: this.$query
       };
@@ -1093,34 +1093,34 @@ angular.module('customSearch.service', [
     };
 
     CustomSearchService.prototype.includesList = function () {
-      return this._data.included_ids;
+      return this._data.includedIds;
     };
 
     CustomSearchService.prototype.includesAdd = function (id) {
       // add id, ensure uniqueness
-      this._data.included_ids.push(id);
-      this._data.included_ids = _.uniq(this._data.included_ids);
+      this._data.includedIds.push(id);
+      this._data.includedIds = _.uniq(this._data.includedIds);
 
       // remove from exclude list
       this.excludesRemove(id);
     };
 
     CustomSearchService.prototype.includesRemove = function (id) {
-      this._data.included_ids = _.without(this._data.included_ids, id);
+      this._data.includedIds = _.without(this._data.includedIds, id);
     };
 
     CustomSearchService.prototype.includesHas = function (id) {
-      return _.includes(this._data.included_ids, id);
+      return _.includes(this._data.includedIds, id);
     };
 
     CustomSearchService.prototype.excludesList = function () {
-      return this._data.excluded_ids;
+      return this._data.excludedIds;
     };
 
     CustomSearchService.prototype.excludesAdd = function (id) {
       // exclude id, ensure unqiueness
-      this._data.excluded_ids.push(id);
-      this._data.excluded_ids = _.uniq(this._data.excluded_ids);
+      this._data.excludedIds.push(id);
+      this._data.excludedIds = _.uniq(this._data.excludedIds);
 
       // remove from include list and pinned list
       this.includesRemove(id);
@@ -1128,32 +1128,32 @@ angular.module('customSearch.service', [
     };
 
     CustomSearchService.prototype.excludesRemove = function (id) {
-      this._data.excluded_ids = _.without(this._data.excluded_ids, id);
+      this._data.excludedIds = _.without(this._data.excludedIds, id);
     };
 
     CustomSearchService.prototype.excludesHas = function (id) {
-      return _.includes(this._data.excluded_ids, id);
+      return _.includes(this._data.excludedIds, id);
     };
 
     CustomSearchService.prototype.pinsList = function () {
-      return this._data.pinned_ids;
+      return this._data.pinnedIds;
     };
 
     CustomSearchService.prototype.pinsAdd = function (id) {
       // pin id, ensure unqiueness
-      this._data.pinned_ids.push(id);
-      this._data.pinned_ids = _.uniq(this._data.pinned_ids);
+      this._data.pinnedIds.push(id);
+      this._data.pinnedIds = _.uniq(this._data.pinnedIds);
 
       // remove from exclude list
       this.excludesRemove(id);
     };
 
     CustomSearchService.prototype.pinsRemove = function (id) {
-      this._data.pinned_ids = _.without(this._data.pinned_ids, id);
+      this._data.pinnedIds = _.without(this._data.pinnedIds, id);
     };
 
     CustomSearchService.prototype.pinsHas = function (id) {
-      return _.includes(this._data.pinned_ids, id);
+      return _.includes(this._data.pinnedIds, id);
     };
 
     CustomSearchService.prototype.getPage = function () {
@@ -2586,7 +2586,7 @@ angular.module('specialCoverage.factory', [
     };
 
     return restmod.model('special-coverage').mix('NestedDirtyModel', {
-      list_url: {
+      listUrl: {
         mask: 'CU'
       },
       $extend: {
@@ -2850,19 +2850,61 @@ angular.module('topBar', [
 'use strict';
 
 angular.module('apiServices', [
-  'restmod'
+  'restmod',
+  'apiServices.styles'
 ])
   .constant('API_URL_ROOT', '/cms/api/v1/')
   .config(function (API_URL_ROOT, restmodProvider) {
-    restmodProvider.rebase({
+    restmodProvider.rebase('DjangoDRFApi', {
       $config: {
-        style: 'AMSApi',
+        style: 'BulbsApi',
         urlPrefix: API_URL_ROOT
+      }
+    });
+  });
+
+'use strict';
+
+angular.module('apiServices.styles', [
+  'lodash',
+  'restmod'
+])
+  .factory('DjangoDRFApi', function (_, restmod, inflector) {
+    var singleRoot = 'root';
+    var manyRoot = 'results';
+
+    return restmod.mixin('DefaultPacker', {
+      $config: {
+        style: 'DjangoDRFApi',
+        primaryKey: 'id',
+        jsonMeta: '.',
+        jsonLinks: '.',
+        jsonRootMany: manyRoot,
+        jsonRootSingle: singleRoot
       },
+
+      $extend: {
+        // special snakecase to camelcase renaming
+        Model: {
+          decodeName: inflector.camelize,
+          encodeName: function(_v) { return inflector.parameterize(_v, '_'); },
+          encodeUrlName: inflector.parameterize
+        }
+      },
+
       $hooks: {
         'before-request': function (_req) {
           _req.url += '/';
-        }
+        },
+        'after-request': function (_req) {
+          // a dirty hack so we don't have to copy/modify the DefaultPacker
+          if (_.isUndefined(_req.data[manyRoot])) {
+            // this is not a collection, make it so the single root is accessible by the packer
+            var newData = {};
+            newData[singleRoot] = _req.data;
+            _req.data = newData;
+          }
+        },
       }
     });
   });
