@@ -5,12 +5,23 @@ angular.module('campaigns.factory', [
 ])
   .filter('iso_date_string_to_moment', function() {
     return function (dateStr) {
-      return moment(dateStr);
+      // Try to parse, else use current time
+      var m = moment(dateStr);
+      if (m.isValid()) {
+        return m;
+      } else {
+        return moment();
+      }
     };
   })
   .filter('moment_to_iso_date_string', function() {
     return function (momentObj) {
-      return momentObj.format();
+      if (moment.isMoment(momentObj) && momentObj.isValid()) {
+        return momentObj.format();
+      } else {
+        // Blank time string == not set
+        return '';
+      }
     };
   })
   .factory('Campaign', function (restmod) {
