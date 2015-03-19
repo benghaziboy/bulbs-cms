@@ -1,17 +1,21 @@
 'use strict';
 
 angular.module('apiServices.styles', [
+  'lodash',
   'restmod'
 ])
-  .factory('DjangoDRFApi', function (restmod, inflector) {
+  .factory('DjangoDRFApi', function (_, restmod, inflector) {
+    var singleRoot = 'root';
+    var manyRoot = 'results';
+
     return restmod.mixin('DefaultPacker', {
       $config: {
         style: 'DjangoDRFApi',
         primaryKey: 'id',
         jsonMeta: '.',
         jsonLinks: '.',
-        jsonRootMany: 'results',
-        jsonRootSingle: '.'
+        jsonRootMany: manyRoot,
+        jsonRootSingle: singleRoot
       },
 
       $extend: {
@@ -29,10 +33,13 @@ angular.module('apiServices.styles', [
         },
         'after-request': function (_req) {
           // a dirty hack so we don't have to copy/modify the DefaultPacker
-          _req.data = {
-            '.': _req.data
-          };
-        }
+          if (_.isUndefined(_req.data[manyRoot])) {
+            // this is not a collection, make it so the single root is accessible by the packer
+            var newData = {};
+            newData[singleRoot] = _req.data;
+            _req.data = newData;
+          }
+        },
       }
     });
   });
