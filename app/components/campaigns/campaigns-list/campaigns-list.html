@@ -16,8 +16,8 @@
     <tr ng-repeat="campaign in campaigns">
       <td>{{ campaign.campaign_label}}</td>
       <td>{{ campaign.sponsor_name}}</td>
-      <td>{{ campaign.start_date}}</td>
-      <td>{{ campaign.end_date}}</td>
+      <td>{{ campaign.start_date | moment : 'MM/DD/YY' }}</td>
+      <td>{{ campaign.end_date | moment : 'MM/DD/YY' }}</td>
       <!--TODO: Campaign Progress-->
       <td>
         <a href="/cms/app/campaigns/edit/{{ campaign.id }}/">EDIT &gt;&gt;</a>

@@ -341,8 +341,8 @@ angular.module('bulbsCmsApp.mockApi').run([
           id: 3
         },
         sponsor_url: 'http://example.com/somewhere/else',
-        start_date: moment().subtract(30, 'days').format(),
-        end_date: moment().subtract(10, 'days').format(),
+        start_date: moment(''),  // Not Set
+        end_date: moment(''),  // Not Set
         campaign_label: 'O-999999',
         impression_goal: 2000,
         pixels: [{id: 13,
