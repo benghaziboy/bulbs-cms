@@ -305,48 +305,48 @@ angular.module('bulbsCmsApp.mockApi').run([
       edit: /^\/cms\/api\/v1\/campaign\/(\d+)\/$/
     };
     mockApiData.campaigns = [{
-        id: 0,
-        sponsor_name: 'Campaign Test Name',
+        id: 1,
+        sponsor_name: 'Honda',
         sponsor_logo: {
           id: 1
         },
         sponsor_url: 'http://example.com',
-        start_date: moment().add(1, 'days').format(),
-        end_date: moment().add(2, 'days').format(),
-        campaign_label: 'Some Test Label',
+        start_date: moment('2015-7-12').format(),
+        end_date: moment('2015-7-13').format(),
+        campaign_label: 'O-183734',
         impression_goal: 100,
-        pixels: [{id: 0,
+        pixels: [{id: 11,
             url: 'http://example.com/pixel',
             pixel_type: 'Logo'
         }],
       },{
-        id: 1,
-        sponsor_name: 'Campaign Test Name 2',
+        id: 2,
+        sponsor_name: 'Parents Magazine',
         sponsor_logo: {
           id: 2
         },
         sponsor_url: 'http://example.com/2',
         start_date: moment().add(7, 'days').format(),
         end_date: moment().add(14, 'days').format(),
-        campaign_label: 'Some Other Label',
+        campaign_label: 'O-183735',
         impression_goal: 1000,
-        pixels: [{id: 1,
+        pixels: [{id: 12,
             url: 'http://example.com/pixel/2',
             pixel_type: 'Logo'
         }],
       },{
-        id: 2,
-        sponsor_name: 'Some Other Campaign',
+        id: 3,
+        sponsor_name: 'Sponsor Name',
         sponsor_logo: {
           id: 3
         },
         sponsor_url: 'http://example.com/somewhere/else',
         start_date: moment().subtract(30, 'days').format(),
         end_date: moment().subtract(10, 'days').format(),
-        campaign_label: 'Test Me',
+        campaign_label: 'O-999999',
         impression_goal: 2000,
-        pixels: [{id: 2,
-            url: 'http://example.com/pixel/2',
+        pixels: [{id: 13,
+            url: 'http://example.com/pixel/3',
             pixel_type: 'Logo'
         }],
     }];
