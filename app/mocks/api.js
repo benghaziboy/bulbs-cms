@@ -184,6 +184,25 @@ angular.module('bulbsCmsApp.mockApi').run([
       list_url: 'http://theonion.com/list/luxury-stuff-123'
     }];
 
+    $httpBackend.whenGET(reSpecialCoverage.list).respond(function () {
+      return [200, {
+        count: mockApiData.special_coverages.length,
+        next: '/cms/api/v1/content/?page=2',
+        previous: null,
+        results: mockApiData.special_coverages
+      }];
+    });
+    $httpBackend.whenGET(reSpecialCoverage.edit).respond(function (method, url) {
+      // return the operation matching given id
+      var matches = url.match(reSpecialCoverage.edit);
+      var specialCoverage = _.find(mockApiData.special_coverages, {id: Number(matches[1])});
+
+      if (_.isUndefined(specialCoverage)) {
+        return [404, null];
+      }
+
+      return [200, specialCoverage];
+    });
     $httpBackend.whenPOST(reSpecialCoverage.list).respond(function (method, url, data) {
       var newSpecialCoverage = JSON.parse(data);
       newSpecialCoverage.id = _.last(mockApiData.special_coverages).id++;
@@ -204,21 +223,6 @@ angular.module('bulbsCmsApp.mockApi').run([
 
       // return new data
       return [200, data];
-    });
-    $httpBackend.whenGET(reSpecialCoverage.list).respond({
-      count: mockApiData.special_coverages.length,
-      results: mockApiData.special_coverages
-    });
-    $httpBackend.whenGET(reSpecialCoverage.edit).respond(function (method, url) {
-      // return the operation matching given id
-      var matches = url.match(reSpecialCoverage.edit);
-      var specialCoverage = _.find(mockApiData.special_coverage, {id: Number(matches[1])});
-
-      if (_.isUndefined(specialCoverage)) {
-        return [404, null];
-      }
-
-      return [200, specialCoverage];
     });
 
     // feature types

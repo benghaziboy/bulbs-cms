@@ -1,15 +1,8 @@
-<div>
-  <div>THE ONION</div>
-  <div>Special toolbar</div>
-  <save-button
-    save-function="saveModel"
-    disable-save="model.$dirty().length === 0 && ! isNew">
-  </save-button>
-</div>
-
-<div>
-  {{ model.$dirty() }}
-</div>
+<top-bar
+  logo-href="/cms/app/campaigns/"
+  save-function="saveModel"
+  save-disable-when="model.$dirty().length === 0 && !isNew">
+</top-bar>
 
 <div class="container">
   <div class="col-xs-offset-1 col-xs-5">

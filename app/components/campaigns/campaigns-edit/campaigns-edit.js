@@ -4,7 +4,7 @@ angular.module('campaigns.edit', [
   'BettyCropper',
   'campaigns.edit.sponsorPixel',
   'campaigns.factory',
-  'saveButton',
+  'topBar'
   ])
   .config(function ($routeProvider, routes) {
     $routeProvider
