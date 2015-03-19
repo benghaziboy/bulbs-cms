@@ -4,11 +4,25 @@
 
 <h1>CAMPAIGNS</h1>
 
-<ul>
-  <li ng-repeat="campaign in campaigns">
-    <div style="font-weight: bold;">{{ campaign.campaign_label}}</div>
-    ID: {{ campaign.id }}<br>
-    <a href="/cms/app/campaigns/edit/{{ campaign.id }}/">EDIT &gt;&gt;<a/><br>
-  </li>
-</ul>
+<table class="table table-striped">
+  <thead>
+    <th>Campaign</th>
+    <th>Sponsor</th>
+    <th>Start Date</th>
+    <th>End Date</th>
+    <!--<th>Campaign Progress</th>-->
+  </thead>
+  <tbody>
+    <tr ng-repeat="campaign in campaigns">
+      <td>{{ campaign.campaign_label}}</td>
+      <td>{{ campaign.sponsor_name}}</td>
+      <td>{{ campaign.start_date}}</td>
+      <td>{{ campaign.end_date}}</td>
+      <!--TODO: Campaign Progress-->
+      <td>
+        <a href="/cms/app/campaigns/edit/{{ campaign.id }}/">EDIT &gt;&gt;</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
