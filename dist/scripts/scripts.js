@@ -763,7 +763,7 @@ angular.module('customSearch.directive', [
           $scope.addedFilterOn = false;
           $scope.removedFilterOn = false;
 
-          if (!_.isUndefined(oldQuery)) {
+          if (!angular.equals(newQuery, oldQuery)) {
             $scope.onUpdate();
           }
         }, true);
@@ -1006,7 +1006,7 @@ angular.module('customSearch.service', [
       return this._data.groups;
     };
 
-      CustomSearchService.prototype.groupsAdd = function (data) {
+    CustomSearchService.prototype.groupsAdd = function (data) {
       if (_.isUndefined(data)) {
         data = {};
       }
