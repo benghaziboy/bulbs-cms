@@ -79,6 +79,8 @@ describe('Factory: Campaign', function () {
     var campaignToSave = Campaign.$build({
       start_date: moment(DATE_STR)
     });
+    // Inject fixed date string to avoid timezone-specific formatting issues.
+    spyOn(campaignToSave.start_date, 'format').andReturn(DATE_STR);
     campaignToSave.$save();
 
     // capture posted value
@@ -90,5 +92,6 @@ describe('Factory: Campaign', function () {
 
     $httpBackend.flush();
     expect(postedStartDate).toEqual(DATE_STR);
+    expect(campaignToSave.start_date.format).toHaveBeenCalledWith();
   });
 });
