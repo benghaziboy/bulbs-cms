@@ -756,17 +756,15 @@ angular.module('customSearch.directive', [
     return {
       controller: function ($scope, CustomSearchService) {
 
-        $scope.$watch('searchQueryData', function (newQuery, oldQuery) {
+        $scope.$watch('searchQueryData', function () {
           $scope.customSearchService = new CustomSearchService($scope.searchQueryData);
           $scope.customSearchService.$retrieveContent();
 
           $scope.addedFilterOn = false;
           $scope.removedFilterOn = false;
 
-          if (!angular.equals(newQuery, oldQuery)) {
-            $scope.onUpdate();
-          }
-        });
+          $scope.onUpdate();
+        }, true);
 
         $scope.resetFilters = function () {
           $scope.customSearchService.setPage(1);
