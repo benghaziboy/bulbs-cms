@@ -10,7 +10,7 @@ angular.module('campaigns.factory', [
       if (m.isValid()) {
         return m;
       } else {
-        return moment();
+        return null;
       }
     };
   })
