@@ -756,12 +756,16 @@ angular.module('customSearch.directive', [
     return {
       controller: function ($scope, CustomSearchService) {
 
-        $scope.$watch('searchQueryData', function () {
+        $scope.$watch('searchQueryData', function (newQuery, oldQuery) {
           $scope.customSearchService = new CustomSearchService($scope.searchQueryData);
           $scope.customSearchService.$retrieveContent();
 
           $scope.addedFilterOn = false;
           $scope.removedFilterOn = false;
+
+          if (!angular.equals(newQuery, oldQuery)) {
+            $scope.onUpdate();
+          }
         });
 
         $scope.resetFilters = function () {
@@ -786,7 +790,8 @@ angular.module('customSearch.directive', [
       },
       restrict: 'E',
       scope: {
-        searchQueryData: '=?'
+        searchQueryData: '=?',
+        onUpdate: '&'
       },
       templateUrl: routes.COMPONENTS_URL + 'custom-search/custom-search.html'
     };
