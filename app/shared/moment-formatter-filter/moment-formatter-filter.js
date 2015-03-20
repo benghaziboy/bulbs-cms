@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('momentFilter', [])
+angular.module('momentFormatterFilter', ['moment'])
   // Used for HTML formatting. Date can be any valid moment constructor.
-  .filter('moment', function() {
+  .filter('momentFormatter', function(moment) {
     return function(date, format) {
       var m = moment(date);
       if (m.isValid()) {

@@ -2,7 +2,7 @@
 
 angular.module('campaigns.list', [
   'campaigns.factory',
-  'momentFilter'
+  'momentFormatterFilter'
 ])
 .config(function ($routeProvider, routes) {
   $routeProvider
