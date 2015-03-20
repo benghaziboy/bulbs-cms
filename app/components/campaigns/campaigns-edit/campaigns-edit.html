@@ -3,7 +3,7 @@
   <div>Special toolbar</div>
   <save-button
     save-function="saveModel"
-    disable-save="model.$dirty().length === 0">
+    disable-save="model.$dirty().length === 0 && ! isNew">
   </save-button>
 </div>
 

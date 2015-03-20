@@ -9,12 +9,17 @@ angular.module('campaigns.edit', [
   .config(function ($routeProvider, routes) {
     $routeProvider
     .when('/cms/app/campaigns/edit/:id/', {
-      controller: function ($routeParams, $q, $scope, $window, Campaign) {
+      controller: function ($location, $routeParams, $q, $scope, $window, Campaign) {
         // set title
         $window.document.title = routes.CMS_NAMESPACE + ' | Edit Campaign';
 
         // populate model for use
-        $scope.model = Campaign.$find($routeParams.id);
+        if ($routeParams.id === 'new') {
+          $scope.model = Campaign.$build();
+          $scope.isNew = true;
+        } else {
+          $scope.model = Campaign.$find($routeParams.id);
+        }
 
         $scope.addPixel = function () {
           var pixel = {
@@ -34,7 +39,9 @@ angular.module('campaigns.edit', [
 
           if ($scope.model) {
             // have model, use save promise as deferred
-            promise = $scope.model.$save().$asPromise();
+            promise = $scope.model.$save().$asPromise().then(function (data) {
+              $location.path('/cms/app/campaigns/edit/' + data.id + '/');
+            });
           } else {
             // no model, this is an error, defer and reject
             var deferred = $q.defer();

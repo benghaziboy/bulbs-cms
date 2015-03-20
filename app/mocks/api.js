@@ -362,6 +362,17 @@ angular.module('bulbsCmsApp.mockApi').run([
 
       return [200, campaign];
     });
+    $httpBackend.whenPOST(reCampaign.list).respond(function (method, url, data) {
+      // add campaign, using first mock model to fill in missing fields
+      var m = _.merge(mockApiData.campaigns[0], JSON.parse(data))
+      // simulate new ID
+      m.id = _.last(mockApiData.campaigns).id + 1;
+      mockApiData.campaigns.push(m);
+
+      // return new data
+      return [200, m];
+    });
+
     $httpBackend.whenPUT(reCampaign.edit).respond(function (method, url, data) {
       // return the operation matching given id
       var matches = url.match(reCampaign.edit);

@@ -6,7 +6,7 @@ angular.module('campaigns.list', [
 .config(function ($routeProvider, routes) {
   $routeProvider
   .when('/cms/app/campaigns/', {
-    controller: function ($scope, $window, Campaign) {
+    controller: function ($location, $scope, $window, Campaign) {
       // set title
       //$window.document.title = routes.CMS
       $scope.campaigns = [];
@@ -15,6 +15,9 @@ angular.module('campaigns.list', [
         .$then(function (data) {
           $scope.campaigns = data;
         });
+      };
+      $scope.addCampaign = function () {
+        $location.path('/cms/app/campaigns/edit/new/');
       };
       $scope.$retrieveCampaigns();
     },
