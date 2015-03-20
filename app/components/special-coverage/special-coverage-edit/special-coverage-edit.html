@@ -1,7 +1,7 @@
 <top-bar
   logo-href="/cms/app/special-coverage/"
   save-function="saveModel"
-  save-disable-when="model.$dirty().length === 0">
+  save-disable-when="model.$dirty().length === 0 && !isNew">
 </top-bar>
 
 <div class="container col-xs-offset-1 col-xs-10">
@@ -11,6 +11,7 @@
       <span>{{ model.listUrl }}</span>
       <button
           class="btn btn-xs btn-success"
+          ng-if="model.listUrl"
           clip-copy="model.listUrl">
         <i class="glyphicon glyphicon-paperclip"></i>
         Copy Url
@@ -18,7 +19,7 @@
     </div>
     <div class="form-group">
       <label for="specialCoverageName">Name</label>
-      <input id="specialCoverageName" type="text" ng-model="model.name" class="form-control">
+      <input id="specialCoverageName" type="text" ng-model="model.name" class="form-control" required>
     </div>
     <div class="form-group">
       <label for="specialCoverageSlug">Slug</label>

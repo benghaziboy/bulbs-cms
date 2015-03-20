@@ -15,14 +15,7 @@ angular.module('specialCoverage.list.directive', [
         };
 
         $scope.$addSpecialCoverage = function () {
-          $scope.$specialCoverages.$create()
-            .$then(
-              function (data) {
-                $location.path('/cms/app/special-coverage/edit/' + data.id + '/');
-              },
-              function () {
-                $scope.errors.push({message: 'Failed to create new special coverage list.'});
-              });
+          $location.path('/cms/app/special-coverage/edit/new/');
         };
 
         $scope.$retrieveSpecialCoverages();

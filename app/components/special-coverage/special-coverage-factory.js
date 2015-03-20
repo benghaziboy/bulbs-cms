@@ -14,8 +14,18 @@ angular.module('specialCoverage.factory', [
       listUrl: {
         mask: 'CU'
       },
+      query: {
+        init: {}
+      },
       $extend: {
         Record: {
+          /**
+           * Getter/setter for active state, a front end standin for the active
+           *  and promoted flags.
+           *
+           * @param {String} [activeState] - set this value when using as setter.
+           * @returns {String} current activeState.
+           */
           $activeState: function (activeState) {
             if (_.isString(activeState)) {
               if (activeState === ACTIVE_STATES.ACTIVE) {
