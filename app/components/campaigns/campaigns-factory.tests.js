@@ -23,7 +23,7 @@ describe('Factory: Campaign', function () {
   it('campaign should translate iso date strings into moments', function () {
     var DATE_STR = '2015-03-19T16:00:00-0500';
     $httpBackend.expectGET(/^\/cms\/api\/v1\/campaign\/(\d+)\/$/).respond({
-        start_date: DATE_STR
+      start_date: DATE_STR
     });
 
     var campaign = Campaign.$find(1);
@@ -31,20 +31,26 @@ describe('Factory: Campaign', function () {
     expect(campaign.start_date.isSame(moment(DATE_STR))).toBe(true);
   });
 
-  it('campaign should convert invalid/blank iso date strings into current moment', function () {
+  it('campaign should convert empty iso date strings into null', function () {
 
-    var now = moment();
-    spyOn(window, 'moment').andReturn(now);
+    $httpBackend.expectGET(/^\/cms\/api\/v1\/campaign\/(\d+)\/$/).respond({
+      start_date: '',
+    });
 
-    for (var start_date in ['', 'invalid date']) {
-      $httpBackend.expectGET(/^\/cms\/api\/v1\/campaign\/(\d+)\/$/).respond({
-          start_date: start_date
-      });
+    var campaign = Campaign.$find(1);
+    $httpBackend.flush();
+    expect(campaign.start_date).toBe(null);
+  });
 
-      var campaign = Campaign.$find(1);
-      $httpBackend.flush();
-      expect(campaign.start_date.isSame(now)).toBe(true);
-    }
+  it('campaign should convert invalid iso date strings into null', function () {
+
+    $httpBackend.expectGET(/^\/cms\/api\/v1\/campaign\/(\d+)\/$/).respond({
+      start_date: 'invalid date string',
+    });
+
+    var campaign = Campaign.$find(1);
+    $httpBackend.flush();
+    expect(campaign.start_date).toBe(null);
   });
 
   it('campaign should translate invalid moments to empty strings', function () {
