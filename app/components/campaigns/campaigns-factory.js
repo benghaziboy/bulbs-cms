@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('campaigns.factory', [
-  'apiServices'
+  'apiServices',
+  'moment'
 ])
-  .filter('iso_date_string_to_moment', function() {
+  .filter('iso_date_string_to_moment', function(moment) {
     return function (dateStr) {
       // Try to parse non-empty strings
       if (dateStr && dateStr.length) {
@@ -15,7 +16,7 @@ angular.module('campaigns.factory', [
       return null;
     };
   })
-  .filter('moment_to_iso_date_string', function() {
+  .filter('moment_to_iso_date_string', function(moment) {
     return function (momentObj) {
       if (moment.isMoment(momentObj) && momentObj.isValid()) {
         return momentObj.format();
