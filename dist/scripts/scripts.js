@@ -765,12 +765,17 @@ angular.module('campaigns.edit', [
   .config(function ($routeProvider, routes) {
     $routeProvider
     .when('/cms/app/campaigns/edit/:id/', {
-      controller: function ($routeParams, $q, $scope, $window, Campaign) {
+      controller: function ($location, $routeParams, $q, $scope, $window, _, Campaign) {
         // set title
         $window.document.title = routes.CMS_NAMESPACE + ' | Edit Campaign';
 
         // populate model for use
-        $scope.model = Campaign.$find($routeParams.id);
+        if ($routeParams.id === 'new') {
+          $scope.model = Campaign.$build();
+          $scope.isNew = true;
+        } else {
+          $scope.model = Campaign.$find($routeParams.id);
+        }
 
         $scope.addPixel = function () {
           var pixel = {
@@ -790,7 +795,9 @@ angular.module('campaigns.edit', [
 
           if ($scope.model) {
             // have model, use save promise as deferred
-            promise = $scope.model.$save().$asPromise();
+            promise = $scope.model.$save().$asPromise().then(function (data) {
+              $location.path('/cms/app/campaigns/edit/' + data.id + '/');
+            });
           } else {
             // no model, this is an error, defer and reject
             var deferred = $q.defer();
@@ -809,16 +816,29 @@ angular.module('campaigns.edit', [
 'use strict';
 
 angular.module('campaigns.factory', [
-  'apiServices'
+  'apiServices',
+  'moment'
 ])
-  .filter('iso_date_string_to_moment', function() {
+  .filter('iso_date_string_to_moment', function(moment) {
     return function (dateStr) {
-      return moment(dateStr);
+      // Try to parse non-empty strings
+      if (dateStr && dateStr.length) {
+        var m = moment(dateStr);
+        if (m.isValid()) {
+          return m;
+        }
+      }
+      return null;
     };
   })
-  .filter('moment_to_iso_date_string', function() {
+  .filter('moment_to_iso_date_string', function(moment) {
     return function (momentObj) {
-      return momentObj.format();
+      if (moment.isMoment(momentObj) && momentObj.isValid()) {
+        return momentObj.format();
+      } else {
+        // Blank time string == not set
+        return '';
+      }
     };
   })
   .factory('Campaign', function (restmod) {
@@ -837,12 +857,13 @@ angular.module('campaigns.factory', [
 'use strict';
 
 angular.module('campaigns.list', [
-  'campaigns.factory'
+  'campaigns.factory',
+  'momentFormatterFilter'
 ])
 .config(function ($routeProvider, routes) {
   $routeProvider
   .when('/cms/app/campaigns/', {
-    controller: function ($scope, $window, Campaign) {
+    controller: function ($location, $scope, $window, Campaign) {
       // set title
       //$window.document.title = routes.CMS
       $scope.campaigns = [];
@@ -851,6 +872,9 @@ angular.module('campaigns.list', [
         .$then(function (data) {
           $scope.campaigns = data;
         });
+      };
+      $scope.addCampaign = function () {
+        $location.path('/cms/app/campaigns/edit/new/');
       };
       $scope.$retrieveCampaigns();
     },
@@ -2921,6 +2945,21 @@ angular.module('contentServices', [
   'contentServices.factory',
   'contentServices.listService'
 ]);
+
+'use strict';
+
+angular.module('momentFormatterFilter', ['moment'])
+  // Used for HTML formatting. Date can be any valid moment constructor.
+  .filter('momentFormatter', function(moment) {
+    return function(date, format) {
+      var m = moment(date);
+      if (m.isValid()) {
+        return m.format(format);
+      } else {
+        return '';
+      }
+    };
+  });
 
 'use strict';
 
