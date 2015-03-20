@@ -14,9 +14,6 @@ angular.module('specialCoverage.factory', [
       listUrl: {
         mask: 'CU'
       },
-      query: {
-        init: {}
-      },
       $extend: {
         Record: {
           /**

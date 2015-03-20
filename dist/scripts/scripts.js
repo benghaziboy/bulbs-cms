@@ -2524,17 +2524,27 @@ angular.module('specialCoverage.edit.directive', [
 ])
   .directive('specialCoverageEdit', function (routes) {
     return {
-      controller: function ($q, $scope, SpecialCoverage) {
+      controller: function ($location, $q, $scope, SpecialCoverage) {
         $scope.ACTIVE_STATES = SpecialCoverage.ACTIVE_STATES;
 
-        $scope.model = SpecialCoverage.$find($scope.getModelId());
+        var modelId = $scope.getModelId();
+        if (modelId === 'new') {
+          // this is a new special coverage, build it
+          $scope.model = SpecialCoverage.$build();
+          $scope.isNew = true;
+        } else {
+          // this is an existing special coverage, find it
+          $scope.model = SpecialCoverage.$find($scope.getModelId());
+        }
 
         $scope.saveModel = function () {
           var promise;
 
           if ($scope.model) {
             // have model, use save promise as deferred
-            promise = $scope.model.$save().$asPromise();
+            promise = $scope.model.$save().$asPromise().then(function (data) {
+              $location.path('/cms/app/special-coverage/edit/' + data.id + '/');
+            });
           } else {
             // no model, this is an error, defer and reject
             var deferred = $q.defer();
@@ -2591,6 +2601,13 @@ angular.module('specialCoverage.factory', [
       },
       $extend: {
         Record: {
+          /**
+           * Getter/setter for active state, a front end standin for the active
+           *  and promoted flags.
+           *
+           * @param {String} [activeState] - set this value when using as setter.
+           * @returns {String} current activeState.
+           */
           $activeState: function (activeState) {
             if (_.isString(activeState)) {
               if (activeState === ACTIVE_STATES.ACTIVE) {
@@ -2638,14 +2655,7 @@ angular.module('specialCoverage.list.directive', [
         };
 
         $scope.$addSpecialCoverage = function () {
-          $scope.$specialCoverages.$create()
-            .$then(
-              function (data) {
-                $location.path('/cms/app/special-coverage/edit/' + data.id + '/');
-              },
-              function () {
-                $scope.errors.push({message: 'Failed to create new special coverage list.'});
-              });
+          $location.path('/cms/app/special-coverage/edit/new/');
         };
 
         $scope.$retrieveSpecialCoverages();
