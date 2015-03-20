@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('campaigns.list', [
-  'campaigns.factory'
+  'campaigns.factory',
+  'momentFilter'
 ])
 .config(function ($routeProvider, routes) {
   $routeProvider
