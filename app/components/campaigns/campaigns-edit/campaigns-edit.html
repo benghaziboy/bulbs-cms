@@ -44,7 +44,7 @@
           ng-model="model.start_date"
           modal-title="Campaign Start Date">
           <label for="campaignStartDate">Campaign Start Date</label>
-          <input id="campaignStartDate" type="text" name="start_date" ng-model="model.start_date" class="form-control" readonly>
+          <input id="campaignStartDate" type="text" name="start_date" value="{{model.start_date | momentFormatter : 'MM/DD/YY h:mm:ss a' }}" class="form-control" readonly>
           <button class="btn btn-xs btn-info">
             <i class="glyphicon glyphicon-calendar"></i>
           </button>
@@ -62,7 +62,7 @@
           ng-model="model.end_date"
           modal-title="Campaign End Date">
           <label for="campaignEndDate">Campaign End Date</label>
-          <input id="campaignEndDate" type="text" name="end_date" ng-model="model.end_date" class="form-control" readonly>
+          <input id="campaignEndDate" type="text" name="end_date" value="{{model.end_date | momentFormatter : 'MM/DD/YY h:mm:ss a' }}" class="form-control" readonly>
           <button class="btn btn-xs btn-info">
             <i class="glyphicon glyphicon-calendar"></i>
           </button>
