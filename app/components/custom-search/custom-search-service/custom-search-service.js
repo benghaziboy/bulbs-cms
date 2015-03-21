@@ -13,12 +13,7 @@ angular.module('customSearch.service', [
      */
     var CustomSearchService = function (data) {
 
-      this._data = _.defaults(data || {}, {
-        groups: [],
-        includedIds: [],
-        excludedIds: [],
-        pinnedIds: []
-      });
+      this.data(data);
 
       this.$page = 1;
       this.$query = '';

@@ -52,6 +52,12 @@ angular.module('customSearch.directive', [
 
 
 // TODO : wrap all the onupdate functions in something that makes them fire only once when a bunch fire at the same time
+
+
+
+
+
+
       },
       restrict: 'E',
       scope: {

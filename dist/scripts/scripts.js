@@ -797,6 +797,12 @@ angular.module('customSearch.directive', [
 
 
 // TODO : wrap all the onupdate functions in something that makes them fire only once when a bunch fire at the same time
+
+
+
+
+
+
       },
       restrict: 'E',
       scope: {
@@ -952,12 +958,7 @@ angular.module('customSearch.service', [
      */
     var CustomSearchService = function (data) {
 
-      this._data = _.defaults(data || {}, {
-        groups: [],
-        includedIds: [],
-        excludedIds: [],
-        pinnedIds: []
-      });
+      this.data(data);
 
       this.$page = 1;
       this.$query = '';
