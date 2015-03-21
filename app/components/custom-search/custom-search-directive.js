@@ -18,7 +18,7 @@ angular.module('customSearch.directive', [
           $scope.addedFilterOn = false;
           $scope.removedFilterOn = false;
 
-          if (!angular.equals(newQuery, oldQuery)) {
+          if (!angular.equals(newQuery, oldQuery) && !_.isEmpty(oldQuery)) {
             $scope.onUpdate();
           }
         }, true);

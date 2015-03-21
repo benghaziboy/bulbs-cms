@@ -28,7 +28,10 @@ angular.module('specialCoverage.edit.directive', [
           if ($scope.model) {
             // have model, use save promise as deferred
             promise = $scope.model.$save().$asPromise().then(function (data) {
-              $location.path('/cms/app/special-coverage/edit/' + data.id + '/');
+              if (modelId === 'new') {
+                $location.path('/cms/app/special-coverage/edit/' + data.id + '/');
+              }
+              $scope.isNew = false;
             });
           } else {
             // no model, this is an error, defer and reject
