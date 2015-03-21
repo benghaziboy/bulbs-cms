@@ -767,7 +767,10 @@ angular.module('customSearch.directive', [
 
             $scope.customSearchService.data(newQuery);
             $scope.customSearchService.$retrieveContent();
-            $scope.onUpdate();
+
+            if (!_.isUndefined(oldQuery)) {
+              $scope.onUpdate();
+            }
           }
         }, true);
 
@@ -808,7 +811,7 @@ angular.module('customSearch.directive', [
       },
       restrict: 'E',
       scope: {
-        searchQueryData: '=?',
+        searchQueryData: '=',
         onUpdate: '&'
       },
       templateUrl: routes.COMPONENTS_URL + 'custom-search/custom-search.html'
