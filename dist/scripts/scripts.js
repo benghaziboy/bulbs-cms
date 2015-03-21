@@ -755,16 +755,18 @@ angular.module('customSearch.directive', [
   .directive('customSearch', function (routes) {
     return {
       controller: function (_, $scope, CustomSearchService) {
-        $scope.customSearchService = new CustomSearchService($scope.searchQueryData);
 
         $scope.$watch('searchQueryData', function (newQuery, oldQuery) {
-          $scope.customSearchService.$retrieveContent();
+          if (_.isUndefined($scope.customSearchService) && !_.isUndefined(newQuery))  {
+            $scope.customSearchService = new CustomSearchService($scope.searchQueryData);
+          }
 
-          $scope.addedFilterOn = false;
-          $scope.removedFilterOn = false;
+          if (!_.isUndefined($scope.customSearchService) && !angular.equals(newQuery, oldQuery)) {
+            $scope.addedFilterOn = false;
+            $scope.removedFilterOn = false;
 
-          if (!angular.equals(newQuery, oldQuery) && !_.isEmpty(oldQuery)) {
             $scope.customSearchService.data(newQuery);
+            $scope.customSearchService.$retrieveContent();
             $scope.onUpdate();
           }
         }, true);
