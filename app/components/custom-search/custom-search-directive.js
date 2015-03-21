@@ -10,15 +10,16 @@ angular.module('customSearch.directive', [
   .directive('customSearch', function (routes) {
     return {
       controller: function (_, $scope, CustomSearchService) {
+        $scope.customSearchService = new CustomSearchService($scope.searchQueryData);
 
         $scope.$watch('searchQueryData', function (newQuery, oldQuery) {
-          $scope.customSearchService = new CustomSearchService($scope.searchQueryData);
           $scope.customSearchService.$retrieveContent();
 
           $scope.addedFilterOn = false;
           $scope.removedFilterOn = false;
 
           if (!angular.equals(newQuery, oldQuery) && !_.isEmpty(oldQuery)) {
+            $scope.customSearchService.data(newQuery);
             $scope.onUpdate();
           }
         }, true);
@@ -42,6 +43,15 @@ angular.module('customSearch.directive', [
             $scope.customSearchService.$retrieveContent();
           }
         };
+
+        $scope.$contentRetrieve = function () {
+          $scope.customSearchService.$retrieveContent();
+          $scope.onUpdate();
+        };
+
+
+
+// TODO : wrap all the onupdate functions in something that makes them fire only once when a bunch fire at the same time
       },
       restrict: 'E',
       scope: {

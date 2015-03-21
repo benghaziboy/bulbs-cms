@@ -29,6 +29,20 @@ angular.module('customSearch.service', [
       this.content = {};
     };
 
+    CustomSearchService.prototype.data = function (data) {
+
+      if (!_.isUndefined(data)) {
+        this._data = _.defaults(data || {}, {
+          groups: [],
+          includedIds: [],
+          excludedIds: [],
+          pinnedIds: []
+        });
+      }
+
+      return this._data;
+    };
+
     CustomSearchService.prototype._$getContent = _.debounce(function (queryData) {
       var self = this;
       return self._contentEndpoint.post(queryData)
@@ -233,11 +247,11 @@ angular.module('customSearch.service', [
     };
 
     CustomSearchService.prototype.getPage = function () {
-      return this._data.page;
+      return this.$page;
     };
 
     CustomSearchService.prototype.setPage = function (page) {
-      this._data.page = page;
+      this.$page = page;
     };
 
     CustomSearchService.prototype.getQuery = function () {

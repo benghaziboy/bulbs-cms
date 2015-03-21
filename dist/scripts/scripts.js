@@ -755,15 +755,16 @@ angular.module('customSearch.directive', [
   .directive('customSearch', function (routes) {
     return {
       controller: function (_, $scope, CustomSearchService) {
+        $scope.customSearchService = new CustomSearchService($scope.searchQueryData);
 
         $scope.$watch('searchQueryData', function (newQuery, oldQuery) {
-          $scope.customSearchService = new CustomSearchService($scope.searchQueryData);
           $scope.customSearchService.$retrieveContent();
 
           $scope.addedFilterOn = false;
           $scope.removedFilterOn = false;
 
-          if (!angular.equals(newQuery, oldQuery)) {
+          if (!angular.equals(newQuery, oldQuery) && !_.isEmpty(oldQuery)) {
+            $scope.customSearchService.data(newQuery);
             $scope.onUpdate();
           }
         }, true);
@@ -787,6 +788,15 @@ angular.module('customSearch.directive', [
             $scope.customSearchService.$retrieveContent();
           }
         };
+
+        $scope.$contentRetrieve = function () {
+          $scope.customSearchService.$retrieveContent();
+          $scope.onUpdate();
+        };
+
+
+
+// TODO : wrap all the onupdate functions in something that makes them fire only once when a bunch fire at the same time
       },
       restrict: 'E',
       scope: {
@@ -956,6 +966,20 @@ angular.module('customSearch.service', [
       this._groupCountEndpoint = ContentFactory.service('custom-search-content/group_count/');
 
       this.content = {};
+    };
+
+    CustomSearchService.prototype.data = function (data) {
+
+      if (!_.isUndefined(data)) {
+        this._data = _.defaults(data || {}, {
+          groups: [],
+          includedIds: [],
+          excludedIds: [],
+          pinnedIds: []
+        });
+      }
+
+      return this._data;
     };
 
     CustomSearchService.prototype._$getContent = _.debounce(function (queryData) {
@@ -1162,11 +1186,11 @@ angular.module('customSearch.service', [
     };
 
     CustomSearchService.prototype.getPage = function () {
-      return this._data.page;
+      return this.$page;
     };
 
     CustomSearchService.prototype.setPage = function (page) {
-      this._data.page = page;
+      this.$page = page;
     };
 
     CustomSearchService.prototype.getQuery = function () {
@@ -2542,13 +2566,20 @@ angular.module('specialCoverage.edit.directive', [
           $scope.model = SpecialCoverage.$find($scope.getModelId());
         }
 
+        $scope.searchUpdate = function () {
+          $scope.isNew = true;
+        };
+
         $scope.saveModel = function () {
           var promise;
 
           if ($scope.model) {
             // have model, use save promise as deferred
             promise = $scope.model.$save().$asPromise().then(function (data) {
-              $location.path('/cms/app/special-coverage/edit/' + data.id + '/');
+              if (modelId === 'new') {
+                $location.path('/cms/app/special-coverage/edit/' + data.id + '/');
+              }
+              $scope.isNew = false;
             });
           } else {
             // no model, this is an error, defer and reject
