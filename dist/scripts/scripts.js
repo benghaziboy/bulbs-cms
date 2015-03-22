@@ -967,7 +967,7 @@ angular.module('customSearch.service', [
     CustomSearchService.prototype.data = function (data) {
 
       if (!_.isUndefined(data)) {
-        this._data = _.defaults(data || {}, {
+        this._data = _.defaults(data, {
           groups: [],
           includedIds: [],
           excludedIds: [],
