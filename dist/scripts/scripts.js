@@ -765,7 +765,7 @@ angular.module('customSearch.directive', [
             $scope.addedFilterOn = false;
             $scope.removedFilterOn = false;
 
-            $scope.customSearchService.data(newQuery);
+            $scope.customSearchService.data($scope.searchQueryData);
             $scope.customSearchService.$retrieveContent();
 
             if (!_.isEmpty(oldQuery)) {
