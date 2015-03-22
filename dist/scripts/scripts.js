@@ -768,7 +768,7 @@ angular.module('customSearch.directive', [
             $scope.customSearchService.data(newQuery);
             $scope.customSearchService.$retrieveContent();
 
-            if (!_.isUndefined(oldQuery)) {
+            if (!_.isEmpty(oldQuery)) {
               $scope.onUpdate();
             }
           }
@@ -798,16 +798,6 @@ angular.module('customSearch.directive', [
           $scope.customSearchService.$retrieveContent();
           $scope.onUpdate();
         };
-
-
-
-// TODO : wrap all the onupdate functions in something that makes them fire only once when a bunch fire at the same time
-
-
-
-
-
-
       },
       restrict: 'E',
       scope: {
