@@ -5,7 +5,8 @@ angular.module('specialCoverage.edit.directive', [
   'customSearch',
   'saveButton.directive',
   'specialCoverage.factory',
-  'topBar'
+  'topBar',
+  'ui.bootstrap.tooltip'
 ])
   .directive('specialCoverageEdit', function (routes) {
     return {
