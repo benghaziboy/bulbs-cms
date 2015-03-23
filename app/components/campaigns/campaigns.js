@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('campaigns', [
-  'campaigns.list',
-  'campaigns.edit'
+  'campaigns.edit',
+  'campaigns.list'
 ]);
