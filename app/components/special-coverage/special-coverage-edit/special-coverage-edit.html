@@ -59,6 +59,12 @@
                 clip-copy="model.listUrl">
               <i class="glyphicon glyphicon-paperclip"></i>
             </button>
+            <button
+                ng-if="!model.listUrl"
+                class="btn btn-info"
+                disabled>
+              <i class="glyphicon glyphicon-paperclip"></i>
+            </button>
           </span>
           <input type="text" class="form-control" value="{{ model.listUrl }}" readonly>
         </div>

@@ -199,8 +199,7 @@ angular.module('bulbsCmsApp.mockApi').run([
       query: {},
       videos: [],
       active: false,
-      promoted: false,
-      list_url: 'http://theonion.com/list/luxury-stuff-123'
+      promoted: false
     }, {
       id: 4,
       name: 'Videos Videos Videos',
