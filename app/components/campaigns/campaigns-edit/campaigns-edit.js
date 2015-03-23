@@ -26,9 +26,6 @@ angular.module('campaigns.edit', [
             url: '',
             campaign_type: ''
           };
-          if ( ! $scope.model.pixels) {
-            $scope.model.pixels = []
-          }
           $scope.model.pixels.push(pixel);
         };
 

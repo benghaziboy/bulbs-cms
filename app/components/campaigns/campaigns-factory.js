@@ -28,6 +28,9 @@ angular.module('campaigns.factory', [
   })
   .factory('Campaign', function (restmod) {
     return restmod.model('campaign').mix('NestedDirtyModel', {
+      pixels: {
+        init: [],
+      },
       end_date: {
         decode: 'iso_date_string_to_moment',
         encode: 'moment_to_iso_date_string',
