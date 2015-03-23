@@ -6,6 +6,13 @@ angular.module('customSearch.service', [
   .factory('CustomSearchService', function (_, ContentFactory, CUSTOM_SEARCH_CONDITION_FIELDS,
       CUSTOM_SEARCH_CONDITION_TYPES, CUSTOM_SEARCH_REQUEST_CAP_MS, CUSTOM_SEARCH_TIME_PERIODS) {
 
+    var defaultData = {
+      groups: [],
+      includedIds: [],
+      excludedIds: [],
+      pinnedIds: []
+    };
+
     /**
      * Create custom search service.
      *
@@ -26,13 +33,10 @@ angular.module('customSearch.service', [
 
     CustomSearchService.prototype.data = function (data) {
 
-      if (!_.isUndefined(data)) {
-        this._data = _.defaults(data, {
-          groups: [],
-          includedIds: [],
-          excludedIds: [],
-          pinnedIds: []
-        });
+      if (_.isUndefined(data)) {
+        this._data = defaultData;
+      } else {
+        this._data = _.defaults(data, defaultData);
       }
 
       return this._data;

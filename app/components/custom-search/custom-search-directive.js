@@ -11,23 +11,25 @@ angular.module('customSearch.directive', [
     return {
       controller: function (_, $scope, CustomSearchService) {
 
-        $scope.$watch('searchQueryData', function (newQuery, oldQuery) {
-          if (_.isUndefined($scope.customSearchService) && !_.isUndefined(newQuery))  {
-            $scope.customSearchService = new CustomSearchService($scope.searchQueryData);
-          }
+        $scope.customSearchService = new CustomSearchService();
 
-          if (!_.isUndefined($scope.customSearchService) && !angular.equals(newQuery, oldQuery)) {
-            $scope.addedFilterOn = false;
-            $scope.removedFilterOn = false;
-
-            $scope.customSearchService.data($scope.searchQueryData);
-            $scope.customSearchService.$retrieveContent();
-
-            if (!_.isEmpty(oldQuery)) {
-              $scope.onUpdate();
-            }
-          }
-        }, true);
+        // $scope.$watch('searchQueryData', function (newQuery, oldQuery) {
+        //   if (_.isUndefined($scope.customSearchService) && !_.isUndefined(newQuery))  {
+        //     $scope.customSearchService = new CustomSearchService();
+        //   }
+        //
+        //   if (!_.isUndefined($scope.customSearchService) && !angular.equals(newQuery, oldQuery)) {
+        //     $scope.addedFilterOn = false;
+        //     $scope.removedFilterOn = false;
+        //
+        //     $scope.customSearchService.data($scope.searchQueryData);
+        //     $scope.customSearchService.$retrieveContent();
+        //
+        //     if (!_.isEmpty(oldQuery)) {
+        //       $scope.onUpdate();
+        //     }
+        //   }
+        // }, true);
 
         $scope.resetFilters = function () {
           $scope.customSearchService.setPage(1);
@@ -54,9 +56,17 @@ angular.module('customSearch.directive', [
           $scope.onUpdate();
         };
       },
+      link: function(scope, iElement, iAttrs, ngModelCtrl) {
+
+        ngModelCtrl.$formatters.push(function (modelValue) {
+          scope.customSearchService.data(modelValue);
+          scope.customSearchService.$retrieveContent();
+        });
+
+      },
+      require: 'ngModel',
       restrict: 'E',
       scope: {
-        searchQueryData: '=',
         onUpdate: '&'
       },
       templateUrl: routes.COMPONENTS_URL + 'custom-search/custom-search.html'
