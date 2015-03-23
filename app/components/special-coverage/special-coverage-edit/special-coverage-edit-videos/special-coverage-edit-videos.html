@@ -10,8 +10,18 @@
   <i class="glyphicon glyphicon-search"></i>
   <input type="text" placeholder="Search Onion Studios by Headline or Video ID">
 </div>
-<ul ng-if="videos.length > 0" ui-sortable="">
+<ul ng-if="videos.length > 0" ui-sortable ng-model="videos">
   <li ng-repeat="video in videos">
+    <button
+        ng-click="moveUp($index)"
+        ng-disabled="$first">
+      <i class="glyphicon glyphicon-chevron-up"></i>
+    </button>
+    <button
+        ng-click="moveDown($index)"
+        ng-disabled="$last">
+      <i class="glyphicon glyphicon-chevron-down"></i>
+    </button>
     <special-coverage-edit-videos-video model="video"></special-coverage-edit-videos-video>
   </li>
 </ul>
