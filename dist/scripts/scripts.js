@@ -758,24 +758,6 @@ angular.module('customSearch.directive', [
 
         $scope.customSearchService = new CustomSearchService();
 
-        // $scope.$watch('searchQueryData', function (newQuery, oldQuery) {
-        //   if (_.isUndefined($scope.customSearchService) && !_.isUndefined(newQuery))  {
-        //     $scope.customSearchService = new CustomSearchService();
-        //   }
-        //
-        //   if (!_.isUndefined($scope.customSearchService) && !angular.equals(newQuery, oldQuery)) {
-        //     $scope.addedFilterOn = false;
-        //     $scope.removedFilterOn = false;
-        //
-        //     $scope.customSearchService.data($scope.searchQueryData);
-        //     $scope.customSearchService.$retrieveContent();
-        //
-        //     if (!_.isEmpty(oldQuery)) {
-        //       $scope.onUpdate();
-        //     }
-        //   }
-        // }, true);
-
         $scope.resetFilters = function () {
           $scope.customSearchService.setPage(1);
           $scope.customSearchService.setQuery('');
@@ -2575,10 +2557,6 @@ angular.module('specialCoverage.edit.directive', [
           // this is an existing special coverage, find it
           $scope.model = SpecialCoverage.$find($scope.getModelId());
         }
-
-        $scope.searchUpdate = function () {
-          $scope.isNew = true;
-        };
 
         $scope.saveModel = function () {
           var promise;

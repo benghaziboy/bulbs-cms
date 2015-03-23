@@ -22,10 +22,6 @@ angular.module('specialCoverage.edit.directive', [
           $scope.model = SpecialCoverage.$find($scope.getModelId());
         }
 
-        $scope.searchUpdate = function () {
-          $scope.isNew = true;
-        };
-
         $scope.saveModel = function () {
           var promise;
 

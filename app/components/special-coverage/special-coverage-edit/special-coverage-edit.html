@@ -58,9 +58,7 @@
   </div>
   <div class="row tab-content">
     <div id="paneQuery" role="tabpanel" class="tab-pane active">
-      <custom-search
-          ng-model="model.query"
-          on-update="searchUpdate()"></custom-search>
+      <custom-search ng-model="model.query" on-update="isNew = true"></custom-search>
     </div>
     <div id="paneVideos" role="tabpanel" class="tab-pane">
       VIDEO LIST EDITING THING
