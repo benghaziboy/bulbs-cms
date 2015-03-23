@@ -2,14 +2,16 @@
 
 angular.module('campaigns.edit.sponsorPixel.directive', [
 ]).constant('PIXEL_TYPES', [
-  {
-    name: 'Logo',
-    value: 'Logo'
-  },
-  {
-    name: 'Detail',
-    value: 'Detail'
-  }])
+    {
+      name: 'Logo',
+      value: 'Logo'
+    }
+    // TODO: Add more types (once added to API)
+    //{
+    //  name: 'Detail',
+    //  value: 'Detail'
+    //},
+  ])
   .directive('campaignsEditSponsorPixel', function (routes) {
     return {
       controller: function($scope, PIXEL_TYPES) {
