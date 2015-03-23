@@ -69,7 +69,11 @@ angular.module('customSearch.service', [
     };
 
     CustomSearchService.prototype.$retrieveContent = function () {
-      return this._$getContent(this._data);
+      var contentQuery = _.assign({
+        page: this.$page,
+        query: this.$query
+      }, this._data);
+      return this._$getContent(contentQuery);
     };
 
     CustomSearchService.prototype.$groupsUpdateResultCountFor = function (index) {

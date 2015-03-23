@@ -1001,7 +1001,11 @@ angular.module('customSearch.service', [
     };
 
     CustomSearchService.prototype.$retrieveContent = function () {
-      return this._$getContent(this._data);
+      var contentQuery = _.assign({
+        page: this.$page,
+        query: this.$query
+      }, this._data);
+      return this._$getContent(contentQuery);
     };
 
     CustomSearchService.prototype.$groupsUpdateResultCountFor = function (index) {
@@ -2540,8 +2544,10 @@ angular.module('specialCoverage.edit.directive', [
   'bulbsCmsApp.settings',
   'customSearch',
   'saveButton.directive',
+  'specialCoverage.edit.videos.directive',
   'specialCoverage.factory',
-  'topBar'
+  'topBar',
+  'ui.bootstrap.tooltip'
 ])
   .directive('specialCoverageEdit', function (routes) {
     return {
@@ -2589,6 +2595,26 @@ angular.module('specialCoverage.edit.directive', [
 
 'use strict';
 
+angular.module('specialCoverage.edit.videos.directive', [])
+  .directive('specialCoverageEditVideos', function (routes) {
+    return {
+      controller: function ($scope) {
+
+      },
+      link: function (scope, iElement, iAttrs, ngModelCtrl) {
+        ngModelCtrl.$formatters.push(function (modelValue) {
+          scope.videos = modelValue;
+        });
+      },
+      require: 'ngModel',
+      restrict: 'E',
+      scope: {},
+      templateUrl: routes.COMPONENTS_URL + 'special-coverage/special-coverage-edit/special-coverage-edit-videos/special-coverage-edit-videos.html'
+    };
+  });
+
+'use strict';
+
 angular.module('specialCoverage.edit', [
   'specialCoverage.edit.directive',
   'specialCoverage.factory'
@@ -2616,7 +2642,7 @@ angular.module('specialCoverage.factory', [
     var ACTIVE_STATES = {
       INACTIVE: 'Inactive',
       ACTIVE: 'Active',
-      PROMOTED: 'Promoted to HP'
+      PROMOTED: 'Pin to HP'
     };
 
     return restmod.model('special-coverage').mix('NestedDirtyModel', {
@@ -2625,6 +2651,9 @@ angular.module('specialCoverage.factory', [
       },
       query: {
         init: {}
+      },
+      videos: {
+        init: []
       },
       $extend: {
         Record: {
