@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('specialCoverage.factory', [
-  'apiServices'
+  'apiServices',
+  'apiServices.video.factory'
 ])
   .factory('SpecialCoverage', function (_, restmod) {
     var ACTIVE_STATES = {
@@ -11,6 +12,10 @@ angular.module('specialCoverage.factory', [
     };
 
     return restmod.model('special-coverage').mix('NestedDirtyModel', {
+      $config: {
+        name: 'SpecialCoverage',
+        primaryKey: 'id'
+      },
       listUrl: {
         mask: 'CU'
       },
@@ -18,6 +23,8 @@ angular.module('specialCoverage.factory', [
         init: {}
       },
       videos: {
+// TODO : use model when video in place
+        // hasMany: 'Video'
         init: []
       },
       $extend: {

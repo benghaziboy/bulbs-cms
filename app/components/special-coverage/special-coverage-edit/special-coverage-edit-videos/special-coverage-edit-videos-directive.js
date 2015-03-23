@@ -1,12 +1,22 @@
 'use strict';
 
 angular.module('specialCoverage.edit.videos.directive', [
+  'apiServices.video.factory',
+  'BulbsAutocomplete',
+  'BulbsAutocomplete.suggest',
   'specialCoverage.edit.videos.video.directive',
   'ui.sortable'
 ])
   .directive('specialCoverageEditVideos', function (routes) {
     return {
-      controller: function ($scope) {
+      controller: function (_, $scope, BulbsAutocomplete, BULBS_AUTOCOMPLETE_EVENT_KEYPRESS, Video) {
+
+        $scope.writables = {
+          searchTerm: ''
+        };
+
+        $scope.autocompleteItems = [];
+
         /**
          * Content moving function.
          *
@@ -28,12 +38,61 @@ angular.module('specialCoverage.edit.videos.directive', [
           return ret;
         };
 
+        var autocomplete = new BulbsAutocomplete(function () {
+          return Video.searchVideoHub($scope.writables.searchTerm)
+            .then(function (data) {
+              return _.map(data.results, function (video) {
+                return {
+                  name: 'ID: ' + video.id + ' | ' + video.name,
+                  value: video
+                };
+              });
+            });
+        });
+
         $scope.moveUp = function (index) {
           moveTo(index, index - 1);
         };
 
         $scope.moveDown = function (index) {
           moveTo(index, index + 1);
+        };
+
+        $scope.delete = function (index) {
+// TODO : fill this in
+        };
+
+        $scope.addVideo = function (video) {
+// TODO : fill this in
+        };
+
+        $scope.updateAutocomplete = function () {
+          if ($scope.writables.searchTerm) {
+            autocomplete.$retrieve().then(function (results) {
+              $scope.autocompleteItems = results;
+            });
+          }
+        };
+
+        $scope.delayClearAutocomplete = function () {
+          _.delay(function () {
+            $scope.clearAutocomplete();
+            $scope.$digest();
+          }, 200);
+        };
+
+        $scope.clearAutocomplete = function () {
+          $scope.writables.searchTerm = '';
+          $scope.autocompleteItems = [];
+        };
+
+        $scope.handleKeypress = function ($event) {
+          if ($event.keyCode === 27) {
+            // esc, close dropdown
+            $scope.clearAutocomplete();
+          } else {
+            $scope.$broadcast(BULBS_AUTOCOMPLETE_EVENT_KEYPRESS, $event);
+          }
         };
       },
       link: function (scope, iElement, iAttrs, ngModelCtrl) {

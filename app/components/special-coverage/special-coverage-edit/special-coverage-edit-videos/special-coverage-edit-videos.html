@@ -6,9 +6,27 @@
     <span class="video-count">{{ videos.length }}</span>
   </span>
 </div>
-<div>
-  <i class="glyphicon glyphicon-search"></i>
-  <input type="text" placeholder="Search Onion Studios by Headline or Video ID">
+<div class="search-container">
+  <div class="search-input">
+    <label for="specialCoverageVideoSearch">
+      <i class="glyphicon glyphicon-search"></i>
+    </label>
+    <input
+        id="specialCoverageVideoSearch"
+        placeholder="Search Onion Studios by Headline or Video ID"
+        type="text"
+        ng-model="writables.searchTerm"
+        ng-blur="delayClearAutocomplete()"
+        ng-change="updateAutocomplete()"
+        ng-keydown="handleKeypress($event)">
+  </div>
+
+  <bulbs-autocomplete-suggest
+      ng-show="writables.searchTerm && autocompleteItems"
+      formatter="item.name"
+      items="autocompleteItems"
+      on-select="addVideo(selection.value)">
+  </bulbs-autocomplete-suggest>
 </div>
 <ul ng-if="videos.length > 0" ui-sortable ng-model="videos">
   <li ng-repeat="video in videos">
@@ -23,6 +41,9 @@
       <i class="glyphicon glyphicon-chevron-down"></i>
     </button>
     <special-coverage-edit-videos-video model="video"></special-coverage-edit-videos-video>
+    <button ng-click="delete($index)">
+      <i class="glyphicon glyphicon-remove"></i>
+    </button>
   </li>
 </ul>
 <div ng-if="videos.length === 0">

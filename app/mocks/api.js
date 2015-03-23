@@ -150,6 +150,12 @@ angular.module('bulbsCmsApp.mockApi').run([
       name: 'Some really long title Some really long title Some really long title Some really long title Some really long title',
       published: moment().add(1, 'day').format()
     }];
+    $httpBackend.whenPOST('/cms/api/v1/videohub-video/search_hub/').respond(function (method, url, data) {
+      return [200, {
+        count: mockApiData.videos.length,
+        results: mockApiData.videos
+      }];
+    });
 
     // special coverage
     var reSpecialCoverage = {

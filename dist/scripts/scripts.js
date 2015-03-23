@@ -724,6 +724,48 @@ angular.module('bulbs.api')
 
 'use strict';
 
+angular.module('confirmationModal', [
+  'bulbsCmsApp.settings',
+  'ui.bootstrap.modal'
+])
+  .directive('confirmationModalOpener', function ($modal, routes) {
+    return {
+      restrict: 'A',
+      scope: {
+        modalBody: '@',
+        modalCancelText: '@',
+        modalOkText: '@',
+        modalOnCancel: '&',
+        modalOnOk: '&',
+        modalTitle: '@'
+      },
+      link: function (scope, element) {
+        var modalInstance = null;
+        element.addClass('confirmation-modal-opener');
+        element.on('click', function () {
+          modalInstance = $modal
+            .open({
+              controller: function ($scope, $modalInstance) {
+                $scope.confirm = function () {
+                  $scope.$close();
+                  $scope.modalOnOk();
+                };
+
+                $scope.cancel = function () {
+                  $scope.$dismiss();
+                  $scope.modalOnCancel();
+                };
+              },
+              scope: scope,
+              templateUrl: routes.COMPONENTS_URL + 'confirmation-modal/confirmation-modal.html'
+            });
+        });
+      }
+    };
+  });
+
+'use strict';
+
 angular.module('customSearch.contentItem.directive', [])
   .directive('customSearchContentItem', function (routes) {
     return {
@@ -2595,11 +2637,100 @@ angular.module('specialCoverage.edit.directive', [
 
 'use strict';
 
-angular.module('specialCoverage.edit.videos.directive', [])
+angular.module('specialCoverage.edit.videos.directive', [
+  'apiServices.video.factory',
+  'BulbsAutocomplete',
+  'BulbsAutocomplete.suggest',
+  'specialCoverage.edit.videos.video.directive',
+  'ui.sortable'
+])
   .directive('specialCoverageEditVideos', function (routes) {
     return {
-      controller: function ($scope) {
+      controller: function (_, $scope, BulbsAutocomplete, BULBS_AUTOCOMPLETE_EVENT_KEYPRESS, Video) {
 
+        $scope.writables = {
+          searchTerm: ''
+        };
+
+        $scope.autocompleteItems = [];
+
+        /**
+         * Content moving function.
+         *
+         * @param {Number} indexFrom - Index to move content from.
+         * @param {Number} indexTo - Index to move content to.
+         * @returns {Boolean} true if content moved, false otherwise.
+         */
+        var moveTo = function (indexFrom, indexTo) {
+          var ret = false;
+          var videos = $scope.videos;
+          if (indexFrom >= 0 && indexFrom < videos.length &&
+              indexTo >= 0 && indexTo < videos.length) {
+            var splicer = videos.splice(indexFrom, 1, videos[indexTo]);
+            if (splicer.length > 0) {
+              videos[indexTo] = splicer[0];
+              ret = true;
+            }
+          }
+          return ret;
+        };
+
+        var autocomplete = new BulbsAutocomplete(function () {
+          return Video.searchVideoHub($scope.writables.searchTerm)
+            .then(function (data) {
+              return _.map(data.results, function (video) {
+                return {
+                  name: 'ID: ' + video.id + ' | ' + video.name,
+                  value: video
+                };
+              });
+            });
+        });
+
+        $scope.moveUp = function (index) {
+          moveTo(index, index - 1);
+        };
+
+        $scope.moveDown = function (index) {
+          moveTo(index, index + 1);
+        };
+
+        $scope.delete = function (index) {
+// TODO : fill this in
+        };
+
+        $scope.addVideo = function (video) {
+// TODO : fill this in
+        };
+
+        $scope.updateAutocomplete = function () {
+          if ($scope.writables.searchTerm) {
+            autocomplete.$retrieve().then(function (results) {
+              $scope.autocompleteItems = results;
+            });
+          }
+        };
+
+        $scope.delayClearAutocomplete = function () {
+          _.delay(function () {
+            $scope.clearAutocomplete();
+            $scope.$digest();
+          }, 200);
+        };
+
+        $scope.clearAutocomplete = function () {
+          $scope.writables.searchTerm = '';
+          $scope.autocompleteItems = [];
+        };
+
+        $scope.handleKeypress = function ($event) {
+          if ($event.keyCode === 27) {
+            // esc, close dropdown
+            $scope.clearAutocomplete();
+          } else {
+            $scope.$broadcast(BULBS_AUTOCOMPLETE_EVENT_KEYPRESS, $event);
+          }
+        };
       },
       link: function (scope, iElement, iAttrs, ngModelCtrl) {
         ngModelCtrl.$formatters.push(function (modelValue) {
@@ -2610,6 +2741,21 @@ angular.module('specialCoverage.edit.videos.directive', [])
       restrict: 'E',
       scope: {},
       templateUrl: routes.COMPONENTS_URL + 'special-coverage/special-coverage-edit/special-coverage-edit-videos/special-coverage-edit-videos.html'
+    };
+  });
+
+'use strict';
+
+angular.module('specialCoverage.edit.videos.video.directive', [
+  'bulbsCmsApp.settings'
+])
+  .directive('specialCoverageEditVideosVideo', function (routes) {
+    return {
+      restrict: 'E',
+      scope: {
+        model: '='
+      },
+      templateUrl: routes.COMPONENTS_URL + 'special-coverage/special-coverage-edit/special-coverage-edit-videos/special-coverage-edit-videos-video/special-coverage-edit-videos-video.html'
     };
   });
 
@@ -2636,7 +2782,8 @@ angular.module('specialCoverage.edit', [
 'use strict';
 
 angular.module('specialCoverage.factory', [
-  'apiServices'
+  'apiServices',
+  'apiServices.video.factory'
 ])
   .factory('SpecialCoverage', function (_, restmod) {
     var ACTIVE_STATES = {
@@ -2646,6 +2793,10 @@ angular.module('specialCoverage.factory', [
     };
 
     return restmod.model('special-coverage').mix('NestedDirtyModel', {
+      $config: {
+        name: 'SpecialCoverage',
+        primaryKey: 'id'
+      },
       listUrl: {
         mask: 'CU'
       },
@@ -2653,6 +2804,8 @@ angular.module('specialCoverage.factory', [
         init: {}
       },
       videos: {
+// TODO : use model when video in place
+        // hasMany: 'Video'
         init: []
       },
       $extend: {
@@ -2698,6 +2851,7 @@ angular.module('specialCoverage.factory', [
 
 angular.module('specialCoverage.list.directive', [
   'bulbsCmsApp.settings',
+  'confirmationModal',
   'specialCoverage.factory'
 ])
   .directive('specialCoverageList', function (routes) {
@@ -2712,6 +2866,10 @@ angular.module('specialCoverage.list.directive', [
 
         $scope.$addSpecialCoverage = function () {
           $location.path('/cms/app/special-coverage/edit/new/');
+        };
+
+        $scope.$removeSpecialCoverage = function (specialCoverage) {
+          specialCoverage.$destroy();
         };
 
         $scope.$retrieveSpecialCoverages();
@@ -2915,6 +3073,57 @@ angular.module('topBar', [
 
 'use strict';
 
+angular.module('apiServices.video.factory', [
+  'apiServices'
+])
+  .value('VIDEOHUB_CHANNEL', 'onion')
+  .factory('Video', function (_, restmod, VIDEOHUB_CHANNEL) {
+    var singleRoot = 'root';
+    var videohubEndpoint = 'videohub-video';
+
+    var search = restmod.model(videohubEndpoint + '/search_hub').mix({
+      $config: {
+        jsonRootSingle: singleRoot
+      },
+      results: {
+        hasMany: 'Video'
+      },
+      $hooks: {
+        'after-request': function (_req) {
+          // another dirty hack so we don't have to modify DefaultPicker
+          var newData = {};
+          newData[singleRoot] = _req.data;
+          _req.data = newData;
+        }
+      }
+    });
+
+    var video = restmod.model(videohubEndpoint).mix({
+      $config: {
+        name: 'Video',
+        primaryKey: 'id'
+      },
+      $extend: {
+        Model: {
+          searchVideoHub: function (query) {
+            return search
+              .$create({
+                query: query,
+                filters: {
+                  channel: VIDEOHUB_CHANNEL
+                }
+              })
+              .$asPromise();
+          }
+        }
+      }
+    });
+
+    return video;
+  });
+
+'use strict';
+
 angular.module('apiServices', [
   'restmod',
   'apiServices.styles'
@@ -2963,8 +3172,9 @@ angular.module('apiServices.styles', [
           _req.url += '/';
         },
         'after-request': function (_req) {
-          // a dirty hack so we don't have to copy/modify the DefaultPacker
-          if (_.isUndefined(_req.data[manyRoot])) {
+          // check that response has data we need
+          if (!_.isUndefined(_req.data) && _.isUndefined(_req.data[manyRoot])) {
+            // a dirty hack so we don't have to copy/modify the DefaultPacker:
             // this is not a collection, make it so the single root is accessible by the packer
             var newData = {};
             newData[singleRoot] = _req.data;
