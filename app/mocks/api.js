@@ -253,6 +253,17 @@ angular.module('bulbsCmsApp.mockApi').run([
       // return new data
       return [200, data];
     });
+    $httpBackend.whenDELETE(reSpecialCoverage.edit).respond(function (method, url) {
+      // return the operation matching given id
+      var matches = url.match(reSpecialCoverage.edit);
+      var specialCoverage = _.find(mockApiData.special_coverages, {id: Number(matches[1])});
+
+      // remove special coverage from list
+      mockApiData.special_coverages = _.pull(mockApiData.special_coverages, specialCoverage);
+
+      // return delete response
+      return [204];
+    });
 
     // feature types
     mockApiData.feature_types = [{

@@ -2,6 +2,7 @@
 
 angular.module('specialCoverage.list.directive', [
   'bulbsCmsApp.settings',
+  'confirmationModal',
   'specialCoverage.factory'
 ])
   .directive('specialCoverageList', function (routes) {
@@ -16,6 +17,10 @@ angular.module('specialCoverage.list.directive', [
 
         $scope.$addSpecialCoverage = function () {
           $location.path('/cms/app/special-coverage/edit/new/');
+        };
+
+        $scope.$removeSpecialCoverage = function (specialCoverage) {
+          specialCoverage.$destroy();
         };
 
         $scope.$retrieveSpecialCoverages();

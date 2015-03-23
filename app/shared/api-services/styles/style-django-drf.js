@@ -32,8 +32,9 @@ angular.module('apiServices.styles', [
           _req.url += '/';
         },
         'after-request': function (_req) {
-          // a dirty hack so we don't have to copy/modify the DefaultPacker
-          if (_.isUndefined(_req.data[manyRoot])) {
+          // check that response has data we need
+          if (!_.isUndefined(_req.data) && _.isUndefined(_req.data[manyRoot])) {
+            // a dirty hack so we don't have to copy/modify the DefaultPacker:
             // this is not a collection, make it so the single root is accessible by the packer
             var newData = {};
             newData[singleRoot] = _req.data;
