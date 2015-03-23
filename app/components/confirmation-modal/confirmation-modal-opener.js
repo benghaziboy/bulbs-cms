@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('confirmationModal', [
+  'bulbsCmsApp.settings',
   'ui.bootstrap.modal'
 ])
   .directive('confirmationModalOpener', function ($modal, routes) {

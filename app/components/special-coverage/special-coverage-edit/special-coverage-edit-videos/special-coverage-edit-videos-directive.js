@@ -1,6 +1,8 @@
 'use strict';
 
-angular.module('specialCoverage.edit.videos.directive', [])
+angular.module('specialCoverage.edit.videos.directive', [
+  'specialCoverage.edit.videos.video.directive'
+])
   .directive('specialCoverageEditVideos', function (routes) {
     return {
       controller: function ($scope) {

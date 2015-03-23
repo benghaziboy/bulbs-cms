@@ -7,7 +7,6 @@ describe('Directive: confirmationModalOpener', function () {
     $scope;
 
   beforeEach(function () {
-    module('bulbsCmsApp.settings');
     module('ui.bootstrap');
     module('confirmationModal');
     module('jsTemplates');

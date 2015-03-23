@@ -1,7 +1,10 @@
 <h4>Video Playlist</h4>
 <div>
-  <span>Current List</span>
-  <span>Items in List: <span>{{ videos.length }}</span></span>
+  <span class="video-list-title">Current List</span>
+  <span>
+    Items in List:
+    <span class="video-count">{{ videos.length }}</span>
+  </span>
 </div>
 <div>
   <i class="glyphicon glyphicon-search"></i>
@@ -9,7 +12,7 @@
 </div>
 <ul ng-if="videos.length > 0" ui-sortable="">
   <li ng-repeat="video in videos">
-    Video {{ video.id }}
+    <special-coverage-edit-videos-video model="video"></special-coverage-edit-videos-video>
   </li>
 </ul>
 <div ng-if="videos.length === 0">
