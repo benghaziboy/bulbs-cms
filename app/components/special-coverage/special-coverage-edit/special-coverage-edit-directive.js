@@ -4,6 +4,7 @@ angular.module('specialCoverage.edit.directive', [
   'bulbsCmsApp.settings',
   'customSearch',
   'saveButton.directive',
+  'specialCoverage.edit.videos.directive',
   'specialCoverage.factory',
   'topBar',
   'ui.bootstrap.tooltip'

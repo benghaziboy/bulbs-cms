@@ -7,7 +7,7 @@ angular.module('specialCoverage.factory', [
     var ACTIVE_STATES = {
       INACTIVE: 'Inactive',
       ACTIVE: 'Active',
-      PROMOTED: 'Promoted to HP'
+      PROMOTED: 'Pin to HP'
     };
 
     return restmod.model('special-coverage').mix('NestedDirtyModel', {
@@ -16,6 +16,9 @@ angular.module('specialCoverage.factory', [
       },
       query: {
         init: {}
+      },
+      videos: {
+        init: []
       },
       $extend: {
         Record: {

@@ -30,7 +30,7 @@
           Active
           <i
               class="glyphicon glyphicon-info-sign text-info"
-              tooltip="Setting active will make this list visible, promoting to the homepage will put it in rotation for the homepage."
+              tooltip="'Active' lists will rotate through all site promotion areas. To always display on the homepage select 'Pin To HP'. Note: there are only three homepage slots so please limit the number of pinned lists."
               tooltip-trigger="mouseenter"
               tooltip-placement="top">
           </i>
@@ -84,7 +84,7 @@
       <custom-search ng-model="model.query" on-update="isNew = true"></custom-search>
     </div>
     <div id="paneVideos" role="tabpanel" class="tab-pane">
-      VIDEO LIST EDITING THING
+      <special-coverage-edit-videos ng-model="model.videos"></special-coverage-edit-videos>
     </div>
   </div>
 </div>

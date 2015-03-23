@@ -132,6 +132,25 @@ angular.module('bulbsCmsApp.mockApi').run([
       return [200, {count: Math.floor(Math.random() * 1000)}];
     });
 
+    // videos
+    mockApiData.videos = [{
+      id: 1,
+      site: 'ClickHole',
+      sponsor: 'Cottonelle',
+      name: '10 Reasons 4 ply is 4 you',
+      published: moment().format()
+    }, {
+      id: 2,
+      site: 'Onion Labs',
+      name: 'Beer Beer Beer',
+      published: moment().subtract(1, 'day').format()
+    }, {
+      id: 3,
+      site: 'AV Club',
+      name: 'Some really long title Some really long title Some really long title Some really long title Some really long title',
+      published: moment().add(1, 'day').format()
+    }];
+
     // special coverage
     var reSpecialCoverage = {
       list: /^\/cms\/api\/v1\/special-coverage\/$/,
@@ -179,6 +198,16 @@ angular.module('bulbsCmsApp.mockApi').run([
       description: 'Luxury, by the rich, for the rich.',
       query: {},
       videos: [],
+      active: false,
+      promoted: false,
+      list_url: 'http://theonion.com/list/luxury-stuff-123'
+    }, {
+      id: 4,
+      name: 'Videos Videos Videos',
+      slug: 'something-video-video',
+      description: 'Lots of videos to watch.',
+      query: {},
+      videos: mockApiData.videos,
       active: false,
       promoted: false,
       list_url: 'http://theonion.com/list/luxury-stuff-123'

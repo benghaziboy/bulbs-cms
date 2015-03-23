@@ -1,0 +1,17 @@
+<h4>Video Playlist</h4>
+<div>
+  <span>Current List</span>
+  <span>Items in List: <span>{{ videos.length }}</span></span>
+</div>
+<div>
+  <i class="glyphicon glyphicon-search"></i>
+  <input type="text" placeholder="Search Onion Studios by Headline or Video ID">
+</div>
+<ul ng-if="videos.length > 0" ui-sortable="">
+  <li ng-repeat="video in videos">
+    Video {{ video.id }}
+  </li>
+</ul>
+<div ng-if="videos.length === 0">
+  There are no videos in this list, search for a video to add to playlist.
+</div>
