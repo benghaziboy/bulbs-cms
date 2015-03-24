@@ -3,7 +3,7 @@
 angular.module('specialCoverage.edit.directive', [
   'autocompleteBasic',
   'bulbsCmsApp.settings',
-  'campaigns.factory',
+  'apiServices.campaign.factory',
   'customSearch',
   'saveButton.directive',
   'specialCoverage.edit.videos.directive',

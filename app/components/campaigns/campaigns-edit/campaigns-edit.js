@@ -3,7 +3,7 @@
 angular.module('campaigns.edit', [
   'BettyCropper',
   'campaigns.edit.sponsorPixel',
-  'campaigns.factory',
+  'apiServices.campaign.factory',
   'topBar'
 ])
   .config(function ($routeProvider, routes) {

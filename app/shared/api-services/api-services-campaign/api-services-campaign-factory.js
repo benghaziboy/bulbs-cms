@@ -1,10 +1,10 @@
 'use strict';
 
-angular.module('campaigns.factory', [
+angular.module('apiServices.campaign.factory', [
   'apiServices',
   'moment'
 ])
-  .filter('iso_date_string_to_moment', function(moment) {
+  .filter('date_string_to_moment', function(moment) {
     return function (dateStr) {
       // Try to parse non-empty strings
       if (dateStr && dateStr.length) {
@@ -16,7 +16,7 @@ angular.module('campaigns.factory', [
       return null;
     };
   })
-  .filter('moment_to_iso_date_string', function(moment) {
+  .filter('moment_to_date_string', function(moment) {
     return function (momentObj) {
       if (moment.isMoment(momentObj) && momentObj.isValid()) {
         return momentObj.format();
@@ -31,13 +31,19 @@ angular.module('campaigns.factory', [
       pixels: {
         init: [],
       },
+
       end_date: {
-        decode: 'iso_date_string_to_moment',
-        encode: 'moment_to_iso_date_string',
+        encode: 'moment_to_date_string',
       },
       start_date: {
-        decode: 'iso_date_string_to_moment',
-        encode: 'moment_to_iso_date_string',
+        encode: 'moment_to_date_string',
+      },
+
+      endDate: {
+        decode: 'date_string_to_moment',
+      },
+      startDate: {
+        decode: 'date_string_to_moment'
       },
 
       $extend: {

@@ -3,7 +3,7 @@
 angular.module('campaigns.list.directive', [
   'bulbsCmsApp.settings',
   'confirmationModal',
-  'campaigns.factory',
+  'apiServices.campaign.factory',
   'momentFormatterFilter'
 ])
   .directive('campaignsList', function (routes) {
