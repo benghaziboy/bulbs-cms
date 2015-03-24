@@ -9,7 +9,7 @@ angular.module('specialCoverage.edit.videos.directive', [
 ])
   .directive('specialCoverageEditVideos', function (routes) {
     return {
-      controller: function (_, $scope, BulbsAutocomplete, BULBS_AUTOCOMPLETE_EVENT_KEYPRESS, Video) {
+      controller: function (_, $scope, BULBS_AUTOCOMPLETE_EVENT_KEYPRESS, Video) {
 
         $scope.writables = {
           searchTerm: ''
@@ -37,8 +37,8 @@ angular.module('specialCoverage.edit.videos.directive', [
           }
           return ret;
         };
-
-        var autocomplete = new BulbsAutocomplete(function () {
+// TODO : make this autcomplete-basic
+        var $getItems = function () {
           return Video.searchVideoHub($scope.writables.searchTerm)
             .then(function (data) {
               return _.map(data.results, function (video) {
@@ -48,7 +48,7 @@ angular.module('specialCoverage.edit.videos.directive', [
                 };
               });
             });
-        });
+        };
 
         $scope.moveUp = function (index) {
           moveTo(index, index - 1);
@@ -68,7 +68,7 @@ angular.module('specialCoverage.edit.videos.directive', [
 
         $scope.updateAutocomplete = function () {
           if ($scope.writables.searchTerm) {
-            autocomplete.$retrieve().then(function (results) {
+            $getItems().then(function (results) {
               $scope.autocompleteItems = results;
             });
           }

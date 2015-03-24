@@ -7,14 +7,14 @@ angular.module('autocompleteBasic', [
 ])
   .directive('autocompleteBasic', function (routes) {
     return {
-      controller: function (_, $scope, BulbsAutocomplete, BULBS_AUTOCOMPLETE_EVENT_KEYPRESS) {
+      controller: function (_, $scope, BULBS_AUTOCOMPLETE_EVENT_KEYPRESS) {
         $scope.writables = {
           searchTerm: ''
         };
 
         $scope.autocompleteItems = [];
 
-        var autocomplete = new BulbsAutocomplete(function () {
+        var $getItems = function () {
           return $scope.searchFunction($scope.writables.searchTerm)
             .then(function (data) {
               return _.map(data, function (item) {
@@ -24,11 +24,11 @@ angular.module('autocompleteBasic', [
                 };
               });
             });
-        });
+        };
 
         $scope.updateAutocomplete = function () {
           if ($scope.writables.searchTerm) {
-            autocomplete.$retrieve().then(function (results) {
+            $getItems().then(function (results) {
               $scope.autocompleteItems = results;
             });
           }
