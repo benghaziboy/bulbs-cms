@@ -8,7 +8,6 @@ angular.module('specialCoverage.list.directive', [
   .directive('specialCoverageList', function (routes) {
     return {
       controller: function ($scope, $location, SpecialCoverage) {
-        $scope.errors = [];
 
         $scope.$specialCoverages = [];
         $scope.$retrieveSpecialCoverages = function (filters) {

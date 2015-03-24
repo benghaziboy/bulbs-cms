@@ -8,13 +8,33 @@
   <h3>Edit Special Coverage</h3>
   <div class="row well">
     <div class="row">
-      <div class="form-group col-md-6">
+      <div class="form-group col-md-3">
         <label for="specialCoverageName">Name</label>
         <input id="specialCoverageName" type="text" ng-model="model.name" class="form-control" required>
       </div>
-      <div class="form-group col-md-6">
+      <div class="form-group col-md-3">
         <label for="specialCoverageSlug">Slug</label>
         <input id="specialCoverageSlug" type="text" ng-model="model.slug" class="form-control">
+      </div>
+      <div class="col-md-6">
+        <label>List URL</label>
+        <div class="input-group">
+          <span class="input-group-btn">
+            <button
+                class="btn btn-info"
+                ng-if="model.listUrl"
+                clip-copy="model.listUrl">
+              <i class="glyphicon glyphicon-paperclip"></i>
+            </button>
+            <button
+                ng-if="!model.listUrl"
+                class="btn btn-info"
+                disabled>
+              <i class="glyphicon glyphicon-paperclip"></i>
+            </button>
+          </span>
+          <input type="text" class="form-control" value="{{ model.listUrl }}" readonly>
+        </div>
       </div>
     </div>
     <div class="row">
@@ -48,26 +68,6 @@
       <div class="col-md-3">
         <label for="specialCoverageCampaign">Attach to Campaign</label>
         <input type="text" placeholder="e.g. 0-1337 Honda" class="form-control">
-      </div>
-      <div class="col-md-6">
-        <label>List URL</label>
-        <div class="input-group">
-          <span class="input-group-btn">
-            <button
-                class="btn btn-info"
-                ng-if="model.listUrl"
-                clip-copy="model.listUrl">
-              <i class="glyphicon glyphicon-paperclip"></i>
-            </button>
-            <button
-                ng-if="!model.listUrl"
-                class="btn btn-info"
-                disabled>
-              <i class="glyphicon glyphicon-paperclip"></i>
-            </button>
-          </span>
-          <input type="text" class="form-control" value="{{ model.listUrl }}" readonly>
-        </div>
       </div>
     </div>
   </div>

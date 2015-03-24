@@ -5,7 +5,7 @@ angular.module('campaigns.edit', [
   'campaigns.edit.sponsorPixel',
   'campaigns.factory',
   'topBar'
-  ])
+])
   .config(function ($routeProvider, routes) {
     $routeProvider
     .when('/cms/app/campaigns/edit/:id/', {

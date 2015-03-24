@@ -410,7 +410,12 @@ angular.module('bulbsCmsApp.mockApi').run([
         impression_goal: 2000,
         pixels: [],
     }];
-    $httpBackend.whenGET(reCampaign.list).respond(mockApiData.campaigns);
+    $httpBackend.whenGET(reCampaign.list).respond(function () {
+      return [200, {
+        count: mockApiData.campaigns.length,
+        results: mockApiData.campaigns
+      }];
+    });
     $httpBackend.whenGET(reCampaign.edit).respond(function (method, url) {
       // return the operation matching given id
       var matches = url.match(reCampaign.edit);
@@ -424,7 +429,7 @@ angular.module('bulbsCmsApp.mockApi').run([
     });
     $httpBackend.whenPOST(reCampaign.list).respond(function (method, url, data) {
       // add campaign, using first mock model to fill in missing fields
-      var m = _.merge(mockApiData.campaigns[0], JSON.parse(data))
+      var m = _.merge(mockApiData.campaigns[0], JSON.parse(data));
       // simulate new ID
       m.id = _.last(mockApiData.campaigns).id + 1;
       mockApiData.campaigns.push(m);
@@ -432,7 +437,6 @@ angular.module('bulbsCmsApp.mockApi').run([
       // return new data
       return [200, m];
     });
-
     $httpBackend.whenPUT(reCampaign.edit).respond(function (method, url, data) {
       // return the operation matching given id
       var matches = url.match(reCampaign.edit);
@@ -447,6 +451,17 @@ angular.module('bulbsCmsApp.mockApi').run([
 
       // return new data
       return [200, data];
+    });
+    $httpBackend.whenDELETE(reCampaign.edit).respond(function (method, url) {
+      // return the operation matching given id
+      var matches = url.match(reCampaign.edit);
+      var campaign = _.find(mockApiData.campaigns, {id: Number(matches[1])});
+
+      // remove special coverage from list
+      mockApiData.campaigns = _.pull(mockApiData.campaigns, campaign);
+
+      // return delete response
+      return [204];
     });
 
     //current user

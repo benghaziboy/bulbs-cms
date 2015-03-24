@@ -1,4 +1,4 @@
-<table class="table table-striped">
+<table class="table table-striped list-page-table">
   <thead>
     <tr>
       <td>List Title</td>
@@ -10,9 +10,7 @@
   </thead>
   <tbody>
     <tr ng-repeat="specialCoverage in $specialCoverages">
-      <td>
-          <span>{{ specialCoverage.name }}</span>
-      </td>
+      <td>{{ specialCoverage.name }}</td>
       <td>FILL IN</td>
       <td>FILL IN</td>
       <td>{{ specialCoverage.$activeState() }}</td>
