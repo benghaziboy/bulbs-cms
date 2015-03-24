@@ -170,7 +170,6 @@ module.exports = function (grunt) {
           'angular-restmod': {
             'main': [
               './dist/angular-restmod-bundle.js',
-              './dist/plugins/dirty.js',
               './dist/plugins/nested-dirty.js'
             ]
           },

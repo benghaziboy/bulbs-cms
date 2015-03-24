@@ -28,6 +28,11 @@ angular.module('apiServices.campaign.factory', [
   })
   .factory('Campaign', function (restmod) {
     return restmod.model('campaign').mix('NestedDirtyModel', {
+      $config: {
+        name: 'Campaign',
+        primaryKey: 'id'
+      },
+
       pixels: {
         init: [],
       },

@@ -4,15 +4,16 @@ angular.module('campaigns.list.directive', [
   'bulbsCmsApp.settings',
   'confirmationModal',
   'apiServices.campaign.factory',
-  'momentFormatterFilter'
+  'momentFormatterFilter',
+  'ui.bootstrap.pagination'
 ])
   .directive('campaignsList', function (routes) {
     return {
       controller: function ($scope, $location, Campaign) {
 
-        $scope.$campaigns = [];
-        $scope.$retrieveCampaigns = function (filters) {
-          $scope.$campaigns = Campaign.$collection().$search(filters);
+        $scope.$campaigns = Campaign.$collection();
+        $scope.$retrieveCampaigns = function () {
+          $scope.$campaigns.$refresh();
         };
 
         $scope.$addCampaign = function () {

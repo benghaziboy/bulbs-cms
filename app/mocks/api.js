@@ -159,7 +159,7 @@ angular.module('bulbsCmsApp.mockApi').run([
 
     // special coverage
     var reSpecialCoverage = {
-      list: /^\/cms\/api\/v1\/special-coverage\/$/,
+      list: /^\/cms\/api\/v1\/special-coverage\/(\?.*)?$/,
       edit: /^\/cms\/api\/v1\/special-coverage\/(\d+)\/$/
     };
     mockApiData.special_coverages = [{
@@ -358,7 +358,7 @@ angular.module('bulbsCmsApp.mockApi').run([
 
     // campaigns
     var reCampaign = {
-      list: /^\/cms\/api\/v1\/campaign\/.*$/,
+      list: /^\/cms\/api\/v1\/campaign\/(\?.*)?$/,
       edit: /^\/cms\/api\/v1\/campaign\/(\d+)\/$/
     };
     mockApiData.campaigns = [{
@@ -410,10 +410,10 @@ angular.module('bulbsCmsApp.mockApi').run([
         impression_goal: 2000,
         pixels: [],
     }];
-    $httpBackend.whenGET(reCampaign.list).respond(function () {
+    $httpBackend.whenGET(reCampaign.list).respond(function (method, url, data) {
       return [200, {
         count: mockApiData.campaigns.length,
-        results: mockApiData.campaigns
+        results: [mockApiData.campaigns[0]]
       }];
     });
     $httpBackend.whenGET(reCampaign.edit).respond(function (method, url) {
