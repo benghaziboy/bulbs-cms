@@ -173,6 +173,12 @@ module.exports = function (grunt) {
               './dist/plugins/dirty.js',
               './dist/plugins/nested-dirty.js'
             ]
+          },
+          'onion-editor': {
+            'main': [
+              './build/editor-main.css',
+              './build/onion-editor.js'
+            ]
           }
         }
       },
@@ -316,7 +322,6 @@ module.exports = function (grunt) {
             '*.{ico,png,txt}',
             '.htaccess',
             '*.html',
-            'bower_components/**/*',
             'images/{,*/}*.{webp}',
             'fonts/*'
           ]
