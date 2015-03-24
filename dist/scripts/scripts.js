@@ -906,15 +906,16 @@ angular.module('campaigns.list.directive', [
   'bulbsCmsApp.settings',
   'confirmationModal',
   'apiServices.campaign.factory',
-  'momentFormatterFilter'
+  'momentFormatterFilter',
+  'ui.bootstrap.pagination'
 ])
   .directive('campaignsList', function (routes) {
     return {
       controller: function ($scope, $location, Campaign) {
 
-        $scope.$campaigns = [];
-        $scope.$retrieveCampaigns = function (filters) {
-          $scope.$campaigns = Campaign.$collection().$search(filters);
+        $scope.$campaigns = Campaign.$collection();
+        $scope.$retrieveCampaigns = function () {
+          $scope.$campaigns.$refresh();
         };
 
         $scope.$addCampaign = function () {
@@ -3297,13 +3298,13 @@ angular.module('apiServices.styles', [
   'lodash',
   'restmod'
 ])
-  .factory('DjangoDRFApi', function (_, restmod, inflector) {
+  .factory('DjangoDRFPagedApi', function (_, restmod, inflector) {
     var singleRoot = 'root';
     var manyRoot = 'results';
 
     return restmod.mixin('DefaultPacker', {
       $config: {
-        style: 'DjangoDRFApi',
+        style: 'DjangoDRFPagedApi',
         primaryKey: 'id',
         jsonMeta: '.',
         jsonLinks: '.',
@@ -3312,6 +3313,11 @@ angular.module('apiServices.styles', [
       },
 
       $extend: {
+        Collection: {
+          $page: 1,
+          $totalCount: 0
+        },
+
         // special snakecase to camelcase renaming
         Model: {
           decodeName: inflector.camelize,
@@ -3324,6 +3330,13 @@ angular.module('apiServices.styles', [
         'before-request': function (_req) {
           _req.url += '/';
         },
+        'before-fetch-many': function (_req) {
+          // add paging parameter here based on collection's $page property
+          if (_.isUndefined(_req.params)) {
+            _req.params = {};
+          }
+          _req.params.page = this.$page || 1;
+        },
         'after-request': function (_req) {
           // check that response has data we need
           if (!_.isUndefined(_req.data) && _.isUndefined(_req.data[manyRoot])) {
@@ -3334,6 +3347,9 @@ angular.module('apiServices.styles', [
             _req.data = newData;
           }
         },
+        'after-fetch-many': function (_req) {
+          this.$totalCount = _req.data.count;
+        }
       }
     });
   });
@@ -3346,7 +3362,7 @@ angular.module('apiServices', [
 ])
   .constant('API_URL_ROOT', '/cms/api/v1/')
   .config(function (API_URL_ROOT, restmodProvider) {
-    restmodProvider.rebase('DjangoDRFApi', {
+    restmodProvider.rebase('DjangoDRFPagedApi', {
       $config: {
         style: 'BulbsApi',
         urlPrefix: API_URL_ROOT
@@ -3384,6 +3400,11 @@ angular.module('apiServices.campaign.factory', [
   })
   .factory('Campaign', function (restmod) {
     return restmod.model('campaign').mix('NestedDirtyModel', {
+      $config: {
+        name: 'Campaign',
+        primaryKey: 'id'
+      },
+
       pixels: {
         init: [],
       },
