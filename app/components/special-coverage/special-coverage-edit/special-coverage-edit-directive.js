@@ -1,7 +1,9 @@
 'use strict';
 
 angular.module('specialCoverage.edit.directive', [
+  'autocompleteBasic',
   'bulbsCmsApp.settings',
+  'campaigns.factory',
   'customSearch',
   'saveButton.directive',
   'specialCoverage.edit.videos.directive',
@@ -11,7 +13,7 @@ angular.module('specialCoverage.edit.directive', [
 ])
   .directive('specialCoverageEdit', function (routes) {
     return {
-      controller: function ($location, $q, $scope, SpecialCoverage) {
+      controller: function ($location, $q, $scope, SpecialCoverage, Campaign) {
         $scope.ACTIVE_STATES = SpecialCoverage.ACTIVE_STATES;
 
         var modelId = $scope.getModelId();
@@ -43,6 +45,10 @@ angular.module('specialCoverage.edit.directive', [
           }
 
           return promise;
+        };
+
+        $scope.searchCampaigns = function (searchTerm) {
+          return Campaign.simpleSearch(searchTerm);
         };
       },
       restrict: 'E',

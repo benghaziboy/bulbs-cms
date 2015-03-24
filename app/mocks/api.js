@@ -358,7 +358,7 @@ angular.module('bulbsCmsApp.mockApi').run([
 
     // campaigns
     var reCampaign = {
-      list: /^\/cms\/api\/v1\/campaign\/$/,
+      list: /^\/cms\/api\/v1\/campaign\/.*$/,
       edit: /^\/cms\/api\/v1\/campaign\/(\d+)\/$/
     };
     mockApiData.campaigns = [{

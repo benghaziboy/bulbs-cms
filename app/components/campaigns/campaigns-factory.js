@@ -38,6 +38,14 @@ angular.module('campaigns.factory', [
       start_date: {
         decode: 'iso_date_string_to_moment',
         encode: 'moment_to_iso_date_string',
+      },
+
+      $extend: {
+        Model: {
+          simpleSearch: function (searchTerm) {
+            return this.$search({search: searchTerm, ordering: 'campaign_label'}).$asPromise();
+          }
+        }
       }
     });
   });

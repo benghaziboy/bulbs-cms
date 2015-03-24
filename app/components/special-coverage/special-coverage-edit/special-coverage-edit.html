@@ -65,9 +65,18 @@
           <option value="{{ ACTIVE_STATES.PROMOTED }}">{{ ACTIVE_STATES.PROMOTED }}</option>
         </select>
       </div>
-      <div class="col-md-3">
+      <div class="form-group col-md-3">
         <label for="specialCoverageCampaign">Attach to Campaign</label>
-        <input type="text" placeholder="e.g. 0-1337 Honda" class="form-control">
+        <autocomplete-basic
+            class="form-control"
+            item-display-formatter="item.campaignLabel"
+            on-select="model.campaign = selection.id"
+            input-id="specialCoverageCampaign"
+            input-placeholder="e.g. 0-1337 Honda"
+            input-use-selection-as-value="true"
+            search-function="searchCampaigns"
+            hide-search-icon="true">
+        </autocomplete-basic>
       </div>
     </div>
   </div>
@@ -78,6 +87,7 @@
           Add Content
         </a>
       </li>
+<!-- TODO : add back in videos -->
       <!--li role="presentation">
         <a href="#paneVideos" role="tab" data-toggle="tab">
           Add Videos
