@@ -3,7 +3,7 @@
 angular.module('specialCoverage.list.directive', [
   'bulbsCmsApp.settings',
   'confirmationModal',
-  'specialCoverage.factory'
+  'apiServices.specialCoverage.factory'
 ])
   .directive('specialCoverageList', function (routes) {
     return {

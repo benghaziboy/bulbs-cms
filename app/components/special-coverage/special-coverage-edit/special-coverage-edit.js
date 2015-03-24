@@ -1,8 +1,7 @@
 'use strict';
 
 angular.module('specialCoverage.edit', [
-  'specialCoverage.edit.directive',
-  'specialCoverage.factory'
+  'specialCoverage.edit.directive'
 ])
   .config(function ($routeProvider, routes) {
     $routeProvider

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('specialCoverage.factory', [
+angular.module('apiServices.specialCoverage.factory', [
   'apiServices',
   'apiServices.video.factory'
 ])

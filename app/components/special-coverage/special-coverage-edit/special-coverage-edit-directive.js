@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('specialCoverage.edit.directive', [
+  'apiServices.specialCoverage.factory',
   'autocompleteBasic',
   'bulbsCmsApp.settings',
   'apiServices.campaign.factory',
   'customSearch',
   'saveButton.directive',
   'specialCoverage.edit.videos.directive',
-  'specialCoverage.factory',
   'topBar',
   'ui.bootstrap.tooltip'
 ])
