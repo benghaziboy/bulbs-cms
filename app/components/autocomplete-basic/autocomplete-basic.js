@@ -52,6 +52,9 @@ angular.module('autocompleteBasic', [
           if ($event.keyCode === 27) {
             // esc, close dropdown
             $scope.clearAutocomplete();
+          } else if ($event.keyCode === 40 && _.isEmpty($scope.autocompleteItems)) {
+              // down key and no items in autocomplete, redo search
+              $scope.updateAutocomplete();
           } else {
             $scope.$broadcast(BULBS_AUTOCOMPLETE_EVENT_KEYPRESS, $event);
           }
