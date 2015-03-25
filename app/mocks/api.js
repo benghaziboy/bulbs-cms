@@ -294,8 +294,7 @@ angular.module('bulbsCmsApp.mockApi').run([
       },
       active: true,
       promoted: true,
-      videos: [],
-      list_url: 'http://theonion.com/list/job-biden-things-123123'
+      videos: []
     }, {
       id: 2,
       name: 'Fun',
@@ -304,8 +303,7 @@ angular.module('bulbsCmsApp.mockApi').run([
       query: {},
       videos: [],
       active: false,
-      promoted: false,
-      list_url: 'http://theonion.com/list/fun-123123123'
+      promoted: false
     }, {
       id: 3,
       campaign: mockApiData.campaigns[1].id,
@@ -325,8 +323,7 @@ angular.module('bulbsCmsApp.mockApi').run([
       query: {},
       videos: mockApiData.videos,
       active: false,
-      promoted: false,
-      list_url: 'http://theonion.com/list/luxury-stuff-123'
+      promoted: false
     }];
 
     $httpBackend.whenGET(reSpecialCoverage.list).respond(function () {
