@@ -29,6 +29,12 @@
                 clip-copy="EXTERNAL_URL + '/special/' + model.slug">
               <i class="glyphicon glyphicon-paperclip"></i>
             </button>
+            <button
+                class="btn btn-info"
+                ng-if="!model.slug"
+                disabled>
+              <i class="glyphicon glyphicon-paperclip"></i>
+            </button>
           </span>
         </div>
       </div>
