@@ -6,6 +6,16 @@ angular.module('bulbsCmsApp.mockApi').run([
 
     var today = moment();
 
+    var slugify = function (text) {
+      /// https://gist.github.com/mathewbyrne/1280286
+      return text.toString().toLowerCase()
+        .replace(/\s+/g, '-')           // Replace spaces with -
+        .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+        .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+        .replace(/^-+/, '')             // Trim - from start of text
+        .replace(/-+$/, '');            // Trim - from end of text
+    };
+
     $httpBackend.when('OPTIONS', '/returns-a-403/').respond(function(){ //just for testing
       return [403, {'detail': 'No permission'}];
     });
@@ -324,6 +334,14 @@ angular.module('bulbsCmsApp.mockApi').run([
       videos: mockApiData.videos,
       active: false,
       promoted: false
+    }, {
+      id: 5,
+      campaign: mockApiData.campaigns[0].id,
+      name: 'No Slug',
+      description: 'No slug on this special coverage.',
+      query: {},
+      active: false,
+      promoted: false
     }];
 
     $httpBackend.whenGET(reSpecialCoverage.list).respond(function () {
@@ -349,6 +367,11 @@ angular.module('bulbsCmsApp.mockApi').run([
       var lastSpecialCoverage = _.last(mockApiData.special_coverages);
       var newSpecialCoverage = _.merge(lastSpecialCoverage, JSON.parse(data));
       newSpecialCoverage.id++;
+
+      _.defaults(newSpecialCoverage, {
+        slug: slugify(newSpecialCoverage.name)
+      });
+
       mockApiData.special_coverages.push(newSpecialCoverage);
       return [201, newSpecialCoverage];
     });
@@ -361,8 +384,14 @@ angular.module('bulbsCmsApp.mockApi').run([
         return [404, null];
       }
 
+      var data = JSON.parse(data);
+
+      _.defaults(data, {
+        slug: slugify(data.name)
+      });
+
       // modify special coverage
-      mockApiData.special_coverages[specialCoverageIndex] = JSON.parse(data);
+      mockApiData.special_coverages[specialCoverageIndex] = data;
 
       // return new data
       return [200, data];
