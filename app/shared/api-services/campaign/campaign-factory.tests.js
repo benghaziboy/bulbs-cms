@@ -69,9 +69,9 @@ describe('Factory: Campaign', function () {
 
   it('campaign should translate moments to iso date strings', function () {
 
-   var DATE_STR = '2015-03-19T18:00:00-05:00';
+   var date = moment();
    var campaignToSave = Campaign.$build({
-     start_date: moment(DATE_STR)
+     start_date: date
    });
    campaignToSave.$save();
 
@@ -83,6 +83,6 @@ describe('Factory: Campaign', function () {
    });
 
    $httpBackend.flush();
-   expect(postedStartDate).toEqual(DATE_STR);
+   expect(postedStartDate).toEqual(date.format());
   });
 });
