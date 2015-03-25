@@ -3080,20 +3080,20 @@ angular.module('specialCoverage.list.directive', [
     return {
       controller: function ($scope, $location, SpecialCoverage) {
 
-        $scope.$specialCoverages = [];
-        $scope.$retrieveSpecialCoverages = function (filters) {
-          $scope.$specialCoverages = SpecialCoverage.$collection().$search(filters);
+        $scope.$list = SpecialCoverage.$collection();
+        $scope.$retrieve = function () {
+          $scope.$list.$refresh();
         };
 
-        $scope.$addSpecialCoverage = function () {
+        $scope.$add = function () {
           $location.path('/cms/app/special-coverage/edit/new/');
         };
 
-        $scope.$removeSpecialCoverage = function (specialCoverage) {
-          specialCoverage.$destroy();
+        $scope.$remove = function (item) {
+          item.$destroy();
         };
 
-        $scope.$retrieveSpecialCoverages();
+        $scope.$retrieve();
       },
       restrict: 'E',
       scope: {},
@@ -3437,6 +3437,7 @@ angular.module('apiServices.campaign.factory', [
 
 angular.module('apiServices.specialCoverage.factory', [
   'apiServices',
+  'apiServices.campaign.factory',
   'apiServices.video.factory'
 ])
   .factory('SpecialCoverage', function (_, restmod) {
@@ -3450,6 +3451,11 @@ angular.module('apiServices.specialCoverage.factory', [
       $config: {
         name: 'SpecialCoverage',
         primaryKey: 'id'
+      },
+      campaign: {
+        belongsTo: 'Campaign',
+        prefetch: true,
+        key: 'campaign'
       },
       listUrl: {
         mask: 'CU'
