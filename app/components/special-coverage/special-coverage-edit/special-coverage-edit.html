@@ -73,8 +73,9 @@
         <autocomplete-basic
             class="form-control"
             item-display-formatter="item.campaignLabel"
-            on-select="model.campaign = selection.id"
+            on-select="model.campaign = selection.value; isNew = true"
             input-id="specialCoverageCampaign"
+            input-init-value="{{ model.campaign.campaignLabel }}"
             input-placeholder="e.g. 0-1337 Honda"
             input-use-selection-as-value="true"
             search-function="searchCampaigns"

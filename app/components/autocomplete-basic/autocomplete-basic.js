@@ -12,6 +12,10 @@ angular.module('autocompleteBasic', [
           searchTerm: ''
         };
 
+        $scope.$watch('inputInitValue', function () {
+          $scope.writables.searchTerm = $scope.inputInitValue;
+        });
+
         $scope.autocompleteItems = [];
 
         var $getItems = function () {
@@ -73,6 +77,7 @@ angular.module('autocompleteBasic', [
       scope: {
         hideSearchIcon: '&',
         inputId: '@',
+        inputInitValue: '@',
         inputPlaceholder: '@',
         inputUseSelectionAsValue: '&',
         itemDisplayFormatter: '&',
