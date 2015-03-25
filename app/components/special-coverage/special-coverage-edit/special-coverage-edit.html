@@ -1,13 +1,15 @@
 <top-bar
   logo-href="/cms/app/special-coverage/"
   save-function="saveModel"
-  save-disable-when="model.$dirty().length === 0 && !isNew">
+  save-disable-when="model.$dirty().length === 0 && !isNew && !needsSave">
 </top-bar>
 
 <div class="container col-xs-offset-2 col-xs-8">
   <h3>
       <a href="/cms/app/special-coverage">Special Coverage Lists</a>
-      &gt; {{ model.name }}
+      &gt;
+      <span ng-if="isNew && !model.name">New Special Coverage</span>
+      <span ng-if="!isNew || model.name">{{ model.name }}</span>
   </h3>
   <div class="row well">
     <div class="row">
@@ -73,7 +75,7 @@
         <autocomplete-basic
             class="form-control"
             item-display-formatter="item.campaignLabel"
-            on-select="model.campaign = selection.value; isNew = true"
+            on-select="model.campaign = selection.value; needsSave = true"
             input-id="specialCoverageCampaign"
             input-init-value="{{ model.campaign.campaignLabel }}"
             input-placeholder="e.g. 0-1337 Honda"
@@ -101,7 +103,7 @@
   </div>
   <div class="row tab-content well">
     <div id="paneQuery" role="tabpanel" class="tab-pane active">
-      <custom-search ng-model="model.query" on-update="isNew = true"></custom-search>
+      <custom-search ng-model="model.query" on-update="needsSave = true"></custom-search>
     </div>
     <!--div id="paneVideos" role="tabpanel" class="tab-pane">
       <special-coverage-edit-videos ng-model="model.videos"></special-coverage-edit-videos>

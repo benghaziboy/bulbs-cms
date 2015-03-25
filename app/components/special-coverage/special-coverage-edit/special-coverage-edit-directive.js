@@ -16,6 +16,8 @@ angular.module('specialCoverage.edit.directive', [
       controller: function ($location, $q, $scope, SpecialCoverage, Campaign) {
         $scope.ACTIVE_STATES = SpecialCoverage.ACTIVE_STATES;
 
+        $scope.needsSave = false;
+
         var modelId = $scope.getModelId();
         if (modelId === 'new') {
           // this is a new special coverage, build it
@@ -36,6 +38,7 @@ angular.module('specialCoverage.edit.directive', [
                 $location.path('/cms/app/special-coverage/edit/' + data.id + '/');
               }
               $scope.isNew = false;
+              $scope.needsSave = false;
             });
           } else {
             // no model, this is an error, defer and reject
