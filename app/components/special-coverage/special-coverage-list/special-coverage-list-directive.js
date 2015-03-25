@@ -9,20 +9,20 @@ angular.module('specialCoverage.list.directive', [
     return {
       controller: function ($scope, $location, SpecialCoverage) {
 
-        $scope.$specialCoverages = [];
-        $scope.$retrieveSpecialCoverages = function (filters) {
-          $scope.$specialCoverages = SpecialCoverage.$collection().$search(filters);
+        $scope.$list = SpecialCoverage.$collection();
+        $scope.$retrieve = function () {
+          $scope.$list.$refresh();
         };
 
-        $scope.$addSpecialCoverage = function () {
+        $scope.$add = function () {
           $location.path('/cms/app/special-coverage/edit/new/');
         };
 
-        $scope.$removeSpecialCoverage = function (specialCoverage) {
-          specialCoverage.$destroy();
+        $scope.$remove = function (item) {
+          item.$destroy();
         };
 
-        $scope.$retrieveSpecialCoverages();
+        $scope.$retrieve();
       },
       restrict: 'E',
       scope: {},

@@ -2,6 +2,7 @@
 
 angular.module('apiServices.specialCoverage.factory', [
   'apiServices',
+  'apiServices.campaign.factory',
   'apiServices.video.factory'
 ])
   .factory('SpecialCoverage', function (_, restmod) {
@@ -15,6 +16,11 @@ angular.module('apiServices.specialCoverage.factory', [
       $config: {
         name: 'SpecialCoverage',
         primaryKey: 'id'
+      },
+      campaign: {
+        belongsTo: 'Campaign',
+        prefetch: true,
+        key: 'campaign'
       },
       listUrl: {
         mask: 'CU'
