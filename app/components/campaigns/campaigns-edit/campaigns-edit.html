@@ -9,7 +9,7 @@
     <a href="/cms/app/campaigns/">Campaigns</a>
     &gt;
     <span ng-if="isNew && !model.campaignLabel">New Campaign</span>
-    <span ng-if="!isNew">{{ model.campaignLabel }}</span>
+    <span ng-if="!isNew || model.campaignLabel">{{ model.campaignLabel }}</span>
   </h3>
   <div class="row well">
     <div class="row">
