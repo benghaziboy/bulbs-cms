@@ -5,25 +5,44 @@ angular.module('apiServices.specialCoverage.factory', [
   'apiServices.campaign.factory',
   'apiServices.video.factory'
 ])
-  .factory('SpecialCoverage', function (_, restmod) {
+  .factory('SpecialCoverage', function (_, restmod, $parse) {
     var ACTIVE_STATES = {
       INACTIVE: 'Inactive',
       ACTIVE: 'Active',
       PROMOTED: 'Pin to HP'
     };
 
+    var parserWrap = function (line) {
+      return (function (line) {
+        return function (item) {
+          return $parse(line)({item: item});
+        };
+      })(line);
+    };
+
     return restmod.model('special-coverage').mix('NestedDirtyModel', {
       $config: {
-        name: 'SpecialCoverage',
-        primaryKey: 'id'
+        name: 'Special Coverage',
+        plural: 'Special Coverages',
+        primaryKey: 'id',
+        fieldDisplays: [{
+          title: 'List Title',
+          value: parserWrap('item.name')
+        }, {
+          title: 'Sponsor',
+          value: parserWrap('item.campaign.sponsorName')
+        }, {
+          title: 'Campaign',
+          value: parserWrap('item.campaign.campaignLabel')
+        }, {
+          title: 'Status',
+          value: parserWrap('item.$activeState()')
+        }]
       },
       campaign: {
         belongsTo: 'Campaign',
         prefetch: true,
         key: 'campaign'
-      },
-      listUrl: {
-        mask: 'CU'
       },
       query: {
         init: {}

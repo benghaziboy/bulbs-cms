@@ -34,7 +34,7 @@ angular.module('apiServices.campaign.factory', [
       },
 
       pixels: {
-        init: [],
+        init: []
       },
 
       end_date: {

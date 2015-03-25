@@ -465,7 +465,11 @@ module.exports = function (grunt) {
     ngtemplates: {
       bulbsCmsApp: {
         cwd: '<%= yeoman.app %>',
-        src: ['views/{,*/}*.html', 'components/**/*.html'],
+        src: [
+          'views/{,*/}*.html',
+          'components/**/*.html',
+          'shared/**/*.html'
+        ],
         dest: '.tmp/concat/scripts/templates.js',
         options: {
           url:    function (url) { return '/' + url; },

@@ -622,6 +622,7 @@ angular.module('bulbsCmsApp.mockApi').run([
 
     // templates
     $httpBackend.whenGET(/^\/components\/(.*)\.html/).passThrough();
+    $httpBackend.whenGET(/^\/shared\/(.*)\.html/).passThrough();
     $httpBackend.whenGET(/^\/views\//).passThrough();
     $httpBackend.whenGET(/^\/content_type_views\//).passThrough();
 

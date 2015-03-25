@@ -82,7 +82,8 @@ module.exports = function(config) {
       'test/config.js',
 
       'app/views/**/*.html',
-      'app/components/**/*.html'
+      'app/components/**/*.html',
+      'app/shared/**/*.html'
     ],
 
     // list of files / patterns to exclude
@@ -97,6 +98,7 @@ module.exports = function(config) {
 
     preprocessors: {
       'app/components/**/*.html': 'ng-html2js',
+      'app/shared/**/*.html': 'ng-html2js',
       'app/views/**/*.html': 'ng-html2js',
       'app/scripts/**/*.js': 'coverage'
     },
