@@ -18,10 +18,10 @@
         <input id="specialCoverageName" type="text" ng-model="model.name" class="form-control" required>
       </div>
       <div class="col-md-7">
-        <label>List URL</label>
+        <label for="specialCoverageSlug">List URL</label>
         <div class="input-group">
           <span class="input-group-addon">{{ EXTERNAL_URL }}/special/</span>
-          <input type="text" class="form-control" value="{{ model.slug }}">
+          <input id="specialCoverageSlug" type="text" class="form-control" ng-model="model.slug">
           <span class="input-group-btn">
             <button
                 class="btn btn-info"
